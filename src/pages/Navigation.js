@@ -10,6 +10,7 @@ function Navigation() {
         <Nav className="mr-auto">
           <Nav.Link href="/example">Bootstrap Example</Nav.Link>
           <Nav.Link href="/faq">FAQ</Nav.Link>
+          <Nav.Link href="/contact">Contact us</Nav.Link>
           <NavDropdown title="Dropdown" id="basic-nav-dropdown">
             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.2">

@@ -5,6 +5,7 @@ import PageNotFound from "./pages/PageNotFound.js";
 import Home from "./pages/Home.js";
 import Example from "./pages/ExampleBootstrap.js";
 import FAQ from "./pages/FAQ.js";
+import Contact from "./pages/Contact.js"
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" exact component={Home} />
           <Route path="/example" component={Example} />
           <Route path="/faq" component={FAQ} />
+          <Route path="/contact" component={Contact} />
           <Route component={PageNotFound} />
         </Switch>
       </div>
