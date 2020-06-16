@@ -11,12 +11,18 @@ function App() {
   return (
     <BrowserRouter>
       <div className="innerContent">
-        <Navigation />
+     <Navigation/>
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/example" component={Example} />
           <Route path="/faq" component={FAQ} />
           <Route path="/contact" component={Contact} />
+          <Route path="/login" component={Example} />  
+          <Route path="/cart" component={Example} /> 
+          <Route path="/user-account" component={Example} /> 
+          <Route path="/user-orders" component={Example} /> 
+          <Route path="/area" component={Example} /> 
+          <Route path="/how" component={Example} /> 
+          <Route path="/order-online" component={Example} /> 
           <Route component={PageNotFound} />
         </Switch>
       </div>
