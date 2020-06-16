@@ -1,18 +1,19 @@
 import React from "react";
-import { Navbar, NavDropdown, Nav, Container } from "react-bootstrap";
+import { Navbar, NavDropdown, Nav, Container} from "react-bootstrap";
 import Link from 'react-router-dom/Link'
 import styled from 'styled-components'
 import logo from './logo.png';
 import {FaShoppingCart} from 'react-icons/fa'
 
+
 const StyledHeader = styled.div`
 
-div {
-      background-color: #414042;
-}
+
 .navbar {
-  padding-left: 100px;
-  padding-right: 20px;
+    background-color: #414042;  
+    padding-left: 100px;
+    padding-right: 20px;
+    margin-bottom:20px;
   
 }
 
@@ -49,15 +50,9 @@ a, .navbar-brand, .navbar-nav .nav-link {
 
 function HeaderNav(props) {
     return (
-        <StyledHeader class="sticky-top">
-            <Container fluid>
-                <Navbar className="justify-content-center">
-                    <Navbar.Text>
-                        Black Lives Metter.<a href="https://support.eji.org/give/153413/#!/donation/checkout" target="_blank" rel='noopener noreferrer'>
-                            Support the Equal Justice Initiative</a>
-                    </Navbar.Text>
-                </Navbar>
-                <Navbar collapseOnSelect expand="lg" variant="dark">
+        <StyledHeader class="fixed-top">
+         
+               <Navbar collapseOnSelect expand="lg" variant="dark" fixed="top">
                         <Navbar.Brand href="/" >
                             <img
                                 alt=""
@@ -100,7 +95,7 @@ function HeaderNav(props) {
                                 </Nav.Item>
                             </Nav>
 
-                             <Nav>
+                             <Nav >
                                 <Nav.Item>
                                     <Nav.Link>
                                         <Link to="/cart"><span><Cart/></span></Link>
@@ -110,8 +105,6 @@ function HeaderNav(props) {
                             </Nav>
                         </Navbar.Collapse>
                     </Navbar>
-                
-            </Container>
         </StyledHeader>
     )
 };

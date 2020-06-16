@@ -5,13 +5,12 @@ import styled from 'styled-components';
 import {GoMarkGithub} from 'react-icons/go';
 
 
-const StyledFooter = styled.div`
-div {
-  
-  background-color: #222;
-}
+
+const StyledFooter = styled.footer`
+
 .navbar{
-  padding: 30px;
+
+  background-color: #222;
 }
 .navbar-brand {
     display: flex;
@@ -29,9 +28,8 @@ a, .navbar-brand, .navbar-nav .nav-link {
 `
 function FooterNav(props) {
   return (
-    <StyledFooter className="fixed-bottom">
-      <Container fluid>
-              <Navbar className="justify-content-center" justify="true" variant="dark">
+    <StyledFooter>
+         <Navbar className="justify-content-center" justify="true" variant="dark" fixed="bottom">
             <Nav className="mr-auto">
               <Nav.Item>
                 <Nav.Link>
@@ -54,7 +52,6 @@ function FooterNav(props) {
                     Project{'  '}<GoMarkGithub/></a>
             </Navbar.Text>
           </Navbar>
-      </Container>
     </StyledFooter>
   )
 };
