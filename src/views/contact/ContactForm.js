@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   CButton,
   CCard,
@@ -6,84 +6,168 @@ import {
   CCardFooter,
   CCardHeader,
   CCol,
-  CForm,
-  CFormGroup,
-  CTextarea,
-  CInput,
-  CInputGroup,
-  CInputGroupAppend,
-  CInputGroupText,
   CRow,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 
-const ContactForm = () => {
+import { Form, Col } from "react-bootstrap";
+
+import { Formik } from "formik";
+import * as Yup from "yup";
+
+import ModalCustom from "../components/CustomComponents";
+
+function ContactForm() {
+  const [faqs, setFaq] = useState();
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = (event) => {
+    setSuccess(!success);
+    console.log(event);
+  };
+
+  const handleChange = (event) => {};
+
+  const validationSchema = Yup.object().shape({
+    firstName: Yup.string().required("First Name is required"),
+    lastName: Yup.string().required("Last Name is required"),
+    email: Yup.string().required("Email is required"),
+    message: Yup.string().required("Message is required"),
+  });
 
   return (
-    <>
-      <CRow>
-        <CCol xs="12" sm="6">
-          <CCard>
-            <CCardHeader>Provide your information below:</CCardHeader>
-            <CCardBody>
-              <CForm action="" method="post" className="form-horizontal">
-                <CFormGroup row>
-                  <CCol md="12">
-                    <CInputGroup>
-                      <CInput
-                        type="email"
-                        id="input2-group1"
-                        name="input2-group1"
-                        placeholder="Email"
-                      />
-                      <CInputGroupAppend>
-                        <CInputGroupText>
-                          <CIcon name="cil-envelope-closed" />
-                        </CInputGroupText>
-                      </CInputGroupAppend>
-                    </CInputGroup>
-                  </CCol>
-                </CFormGroup>
+    <div>
+      <ModalCustom
+        willShow={success}
+        type="success"
+        title="Message sent"
+        content="Your message has been sent. We will do our best to respond it as soon as possible!"
+        confirmationButtonText="OK"
+        showCancelButton={false}
+        cancelButtonText={null}
+        handleClose={() => setSuccess(!success)}
+        handleConfirmationClick={() => setSuccess(!success)}
+        handleCancelClick={() => setSuccess(!success)}
+      />
 
-                <CFormGroup>
-                  <CInputGroup>
-                    <CInput
-                      id="username2"
-                      name="username2"
-                      placeholder="Username"
-                      autoComplete="name"
-                    />
-                    <CInputGroupAppend>
-                      <CInputGroupText>
-                        <CIcon name="cil-user" />
-                      </CInputGroupText>
-                    </CInputGroupAppend>
-                  </CInputGroup>
-                </CFormGroup>
-                <CFormGroup></CFormGroup>
+      <Formik
+        validationSchema={validationSchema}
+        onSubmit={(event) => handleSubmit(event)}
+        initialValues={{
+          firstName: "",
+          lastName: "",
+          email: "",
+          message: "",
+        }}
+      >
+        {({
+          handleSubmit,
+          handleChange,
+          handleBlur,
+          values,
+          touched,
+          isValid,
+          errors,
+        }) => (
+          <Form noValidate onSubmit={handleSubmit}>
+            <CRow>
+              <CCol xs="12" sm="6">
+                <CCard>
+                  <CCardHeader>Contact us</CCardHeader>
+                  <CCardBody>
+                    <CRow>
+                      <CCol xs="12">
+                        <Form.Group as={Col} controlId="validationFormik01">
+                          <Form.Label>First Name</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="John"
+                            name="firstName"
+                            value={values.firstName}
+                            onChange={handleChange}
+                            isInvalid={!!errors.firstName && touched.firstName}
+                          />
 
-                <CFormGroup>
-                  <CInputGroup>
-                    <CTextarea
-                      name="textarea-input"
-                      id="textarea-input"
-                      rows="9"
-                      placeholder="Please leave your message"
-                    />
-                  </CInputGroup>
-                </CFormGroup>
-              </CForm>
-            </CCardBody>
-            <CCardFooter>
-              <CButton type="submit" size="sm" color="success">
-                <CIcon name="cil-scrubber" /> Submit
-              </CButton>
-            </CCardFooter>
-          </CCard>
-        </CCol>
-      </CRow>
-    </>
+                          <Form.Control.Feedback type="invalid">
+                            {errors.firstName}
+                          </Form.Control.Feedback>
+                        </Form.Group>
+                      </CCol>
+                    </CRow>
+
+                    <CRow>
+                      <CCol xs="12">
+                        <Form.Group as={Col} controlId="validationFormik01">
+                          <Form.Label>Last Name</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Doe"
+                            name="lastName"
+                            value={values.lastName}
+                            onChange={handleChange}
+                            isInvalid={!!errors.lastName && touched.lastName}
+                          />
+
+                          <Form.Control.Feedback type="invalid">
+                            {errors.lastName}
+                          </Form.Control.Feedback>
+                        </Form.Group>
+                      </CCol>
+                    </CRow>
+
+                    <CRow>
+                      <CCol xs="12">
+                        <Form.Group as={Col} controlId="validationFormik02">
+                          <Form.Label>E-mail</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="john.doe@example.com"
+                            name="email"
+                            value={values.email}
+                            onChange={handleChange}
+                            isInvalid={!!errors.email && touched.email}
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.email}
+                          </Form.Control.Feedback>
+                        </Form.Group>
+                      </CCol>
+                    </CRow>
+
+                    <CRow>
+                      <CCol xs="12">
+                        <Form.Group as={Col} controlId="validationFormik03">
+                          <Form.Label>Message</Form.Label>
+                          <Form.Control
+                            type="text"
+                            as="textarea"
+                            rows="3"
+                            placeholder="message"
+                            name="message"
+                            value={values.message}
+                            onChange={handleChange}
+                            isInvalid={!!errors.message && touched.message}
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.message}
+                          </Form.Control.Feedback>
+                        </Form.Group>
+                      </CCol>
+                    </CRow>
+                  </CCardBody>
+                  <CCardFooter>
+                    <CButton type="submit" size="sm" color="success">
+                      <CIcon name="cil-scrubber" /> Submit
+                    </CButton>
+                  </CCardFooter>
+                </CCard>
+              </CCol>
+            </CRow>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
-};
+}
 
 export default ContactForm;

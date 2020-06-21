@@ -6,6 +6,7 @@ import {
   CHeaderBrand,
   CHeaderNav,
   CBreadcrumbRouter,
+  CSubheader
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 
@@ -49,15 +50,20 @@ const TheHeader = () => {
       </CHeaderBrand>
 
       <CHeaderNav className="d-md-down-none mr-auto">
-        <CBreadcrumbRouter
-          className="border-0 c-subheader-nav m-0 px-0 px-md-3"
-          routes={routes}
-        />
+
       </CHeaderNav>
 
       <CHeaderNav className="px-3">
         <TheHeaderDropdown />
       </CHeaderNav>
+
+      <CSubheader className="px-3 justify-content-between">
+        <CBreadcrumbRouter 
+          className="border-0 c-subheader-nav m-0 px-0 px-md-3" 
+          routes={routes} 
+        />
+          
+      </CSubheader>
     </CHeader>
   );
 };
