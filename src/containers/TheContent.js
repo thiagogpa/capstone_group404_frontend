@@ -8,6 +8,9 @@ import { CContainer, CFade } from '@coreui/react'
 
 // routes config
 import routes from '../routes'
+
+//route validator
+import withAuth from '../middleware/withAuth';
   
 const loading = (
   <div className="pt-3 text-center">
@@ -28,11 +31,8 @@ const TheContent = () => {
                   path={route.path}
                   exact={route.exact}
                   name={route.name}
-                  render={props => (
-                    <CFade>
-                      <route.component {...props} />
-                    </CFade>
-                  )} />
+                  component={withAuth(route.component)}
+                 />
               )
             })}
             <Redirect from="/" to="/dashboard" />

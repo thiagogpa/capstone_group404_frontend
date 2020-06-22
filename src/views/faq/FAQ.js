@@ -17,7 +17,7 @@ function FAQ() {
   useEffect(() => {
     axios
       .get(
-        "https://cors-anywhere.herokuapp.com/https://thiagogpa.000webhostapp.com/json/faqAPI.json"
+        "http://localhost:8080/faq"
       )
       .then((response) => {
         setFaq(response.data);
