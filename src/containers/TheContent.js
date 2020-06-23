@@ -19,35 +19,11 @@ const loading = (
 function TheContent() {
   const [routes, setRoutes] = useState(routesLoggedIN);
 
-  /*
-  let route;
-
-  fetch("/checkToken")
-    .then((res) => {
-      if (res.status === 200) {
-        console.log("LoggedIN");
-        route = routesLoggedIN;
-      } else {
-        console.log("LoggedOFF");
-        route = routesLoggedOFF;
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      route = routesLoggedOFF;
-      console.log("LoggedOFF");
-    })
-    .finally(() => {
-      console.log("Final");
-      console.log(route);
-    });
-    */
-
   useEffect(() => {
     axios
       .get("/checkToken")
       .then((res) => {
-        console.log("RESPONSEW");
+        console.log("RESPONSE");
         if (res.status === 200) {
           console.log("LoggedIN");
           setRoutes(routesLoggedIN);

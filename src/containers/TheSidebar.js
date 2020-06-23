@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   CCreateElement,
@@ -14,13 +14,38 @@ import {
 
 import CIcon from "@coreui/icons-react";
 
+import axios from "axios";
+
 // sidebar nav config
-import navigation from "./_nav";
+import navigationLoggedIN from "./_nav";
+import navigationLoggedOFF from "./_nav copy";
 
 import logoFull from "../assets/img/logo.png";
 import logoMini from "../assets/img/logo_mini.png";
 
-const TheSidebar = () => {
+function TheSidebar() {
+  const [navigation, setNavigation] = useState(navigationLoggedIN);
+
+  useEffect(() => {
+    axios
+      .get("/checkToken")
+      .then((res) => {
+        console.log("RESPONSE");
+        if (res.status === 200) {
+          console.log("LoggedIN");
+          setNavigation(navigationLoggedIN);
+        } else {
+          console.log("LoggedOFF");
+          setNavigation(navigationLoggedOFF);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setNavigation(navigationLoggedOFF);
+        console.log("LoggedOFF");
+      });
+  }, []);
+
   const dispatch = useDispatch();
   const show = useSelector((state) => state.sidebarShow);
 
