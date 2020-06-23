@@ -11,7 +11,9 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
+    "cookie-parser": "^1.4.5",
     "formik": "^2.1.4",
+    "jsonwebtoken": "^8.5.1",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
@@ -23,11 +25,12 @@
     "yup": "^0.29.1"
   },
   "scripts": {
-    "start": "PORT=42220 react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:8080",
   "eslintConfig": {
     "extends": "react-app"
   },
