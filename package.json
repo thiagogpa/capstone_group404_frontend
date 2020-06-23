@@ -25,11 +25,12 @@
     "yup": "^0.29.1"
   },
   "scripts": {
-    "start": "PORT=8081 react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:8080",
   "eslintConfig": {
     "extends": "react-app"
   },
