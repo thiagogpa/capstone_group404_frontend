@@ -17,7 +17,7 @@ function FAQ() {
   useEffect(() => {
     axios
       .get(
-        "http://localhost:8080/faq"
+        "/faq"
       )
       .then((response) => {
         setFaq(response.data);
