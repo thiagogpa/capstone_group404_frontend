@@ -24,7 +24,7 @@ import logoFull from "../assets/img/logo.png";
 import logoMini from "../assets/img/logo_mini.png";
 
 function TheSidebar() {
-  const [navigation, setNavigation] = useState(navigationLoggedIN);
+  const [navigation, setNavigation] = useState();
 
   useEffect(() => {
     axios
