@@ -19,6 +19,7 @@ const routesLoggedIN = [
 
   { path: '/faq', exact: true, name: 'Faq', component: Faq },
   { path: '/contact', exact: true, name: 'Contact', component: Contact },
+
 ];
 
 export default routesLoggedIN;
