@@ -18,7 +18,7 @@ import * as Yup from "yup";
 import ModalCustom from "../components/CustomComponents";
 
 function ContactForm() {
-  const [faqs, setFaq] = useState();
+
   const [success, setSuccess] = useState(false);
 
   const handleSubmit = (event) => {

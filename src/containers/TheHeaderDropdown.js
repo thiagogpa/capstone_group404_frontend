@@ -40,7 +40,7 @@ const TheHeaderDropdown = () => {
 
 
         <CDropdownItem divider />
-        <CDropdownItem>
+        <CDropdownItem to="/logoff">
           <CIcon name="cil-account-logout" className="mfe-2" />
           Log Off
         </CDropdownItem>
