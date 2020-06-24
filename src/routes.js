@@ -11,7 +11,7 @@ const Faq = React.lazy(() => import('./views/faq/FAQ'));
 const Contact = React.lazy(() => import('./views/contact/ContactForm'));
 const Something = React.lazy(() => import('./views/something/Something'));
 
-const routes = [
+const routesLoggedIN = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/theme', name: 'Theme', component: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', component: Colors },  
@@ -27,6 +27,7 @@ const routes = [
 
   { path: '/faq', exact: true, name: 'Faq', component: Faq },
   { path: '/contact', exact: true, name: 'Contact', component: Contact },
+
 ];
 
-export default routes;
+export default routesLoggedIN;
