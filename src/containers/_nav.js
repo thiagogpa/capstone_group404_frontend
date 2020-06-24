@@ -19,19 +19,25 @@ export default [
   {
     _tag: "CSidebarNavDropdown",
     name: "Bins",
-    route: "/bin",
+    route: "/bins",
     icon: "cib-codesandbox",
     _children: [
       {
         _tag: "CSidebarNavItem",
-        name: "Add",
-        to: "/bin/add",
+        name: "Add bin",
+        to: "/bins/add",
       },
       {
         _tag: "CSidebarNavItem",
-        name: "List",
-        to: "/bin/list",
+        name: "Bins List",
+        to: "/bins/list",
       },
+      {
+        _tag: "CSidebarNavItem",
+        name: "Something",
+        to: "/bins/something",
+      },
+
     ],
   },
   {
