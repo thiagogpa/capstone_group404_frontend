@@ -1,0 +1,48 @@
+[
+	{
+		"id" : 1,
+		"waste_type": "Constraction",
+	    "size_long" : 10,
+		"size_height" : 6,
+		"size_wide" : 2,
+		"daily_cost" : 60.5,
+		"picture": "bin_l10_h2_w6.png",
+		"availability" : 0,
+		"description": "Our 4 yard disposal bin is ideal for small to medium size construction and building projects as well residential and commercial renovations and clean outs."
+	},
+	{
+		"id" : 2,
+		"waste_type" : "Mixed waste",
+		"size_long" : 7,
+		"size_height" : 7,
+		"size_wide" : 7,
+		"daily_cost" : 50.23,
+		"picture": "bin_l10_h2_w6.png",
+		"availability" : 3,
+		"description": "Our 4 yard disposal bin is ideal for small to medium size construction and building projects as well residential and commercial renovations and clean outs."
+		
+	},
+	{
+		"id" : 3,
+		"waste_type" : "Mixed waste",
+		"size_long" : 5,
+		"size_height" : 5,
+		"size_wide" : 5,
+		"daily_cost" : 25.45,
+		"picture": "bin_l10_h2_w6.png",
+		"availability" : 3,
+		"description": "Our 4 yard disposal bin is ideal for small to medium size construction and building projects as well residential and commercial renovations and clean outs."
+
+	},
+	{
+		"id" : 4,
+		"waste_type" : "Clean FIll",
+		"size_long" : 3,
+		"size_height" : 3,
+		"size_wide" : 3,
+		"daily_cost" : 15.56,
+		"picture": "bin_l10_h2_w6.png",
+		"availability" : 3,
+		"description": "Our 4 yard disposal bin is ideal for small to medium size construction and building projects as well residential and commercial renovations and clean outs."
+	}
+]
