@@ -1,5 +1,5 @@
 import React, { useState, useReducer, useContext} from 'react';
-import { CDataTable, CBadge, CButton, CCollapse, CCardBody,CImg} from '@coreui/react'; 
+import { CButton, CCollapse,CButtonToolbar,CCard, CCardBody, CCardHeader,CCardFooter} from '@coreui/react'; 
 import COrderDatesForm from './COrderDatesForm';
 import CBinPickerForm from '../bins/CBinPickerForm';
 import COrderAddressForm from './COrderAddressForm';
@@ -72,22 +72,36 @@ const CStepper =()=> {
     
     return(
             <>
+            <CCard className="h-75">
             <OrderContext.Provider value={order}>
-                    <h2>Placing an order. Step {step} of {STEP_MAX}</h2>
+            <CCardHeader>
+                Placing an order. Step {step} of {STEP_MAX}
+            </CCardHeader>        
+                <CCardBody  className="d-flex justify-content-center">        
                     <CStep step={step} handleChange={handleChange}/>
-                <div>
+                </CCardBody>
+                <CCardFooter>  
+                <CButtonToolbar justify="between">
                 {step > STEP_MIN &&
-                    <button className="Back" onClick={() => dispatchStep("prev")}>
+                    <CButton color={"primary"}
+                            size={"lg"} 
+                            name={"back"}
+                            onClick={() => dispatchStep("prev")}>
                         « Back
-                    </button>
+                    </CButton>
                 }
                 {step < STEP_MAX &&
-                    <button className="Next" onClick={() => dispatchStep("next")}>
+                    <CButton color={"primary"}
+                             size={"lg"}
+                             name={"next"}  
+                             onClick={() => dispatchStep("next")}>
                         Next »
-                    </button>
+                    </CButton>
                 }
-                </div>
+                </CButtonToolbar>
+                </CCardFooter>
             </OrderContext.Provider>
+            </CCard>
             </>
         );
 }
