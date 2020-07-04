@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 import cookie from "react-cookies";
 
@@ -6,17 +7,21 @@ export default class Logoff extends Component {
   constructor(props) {
     super(props);
 
-    console.log("Logging of now");
-    fetch("/api/logoff", {
-      method: "POST",
+    let axiosInstance = axios.create({
+      withCredentials: true,
       headers: {
         "Content-Type": "application/json",
       },
-    })
+      baseURL: process.env.REACT_APP_BACKEND,
+    });
+
+    axiosInstance
+      .post('/api/logoff')
       .then((res) => {
         if (res.status === 200) {
           console.log("200");
           console.log(res);
+          this.props.history.push("/");
         } else {
           console.log(res);
           console.log("other");
@@ -28,7 +33,6 @@ export default class Logoff extends Component {
         console.error(err);
         alert("Error logging OFF please try again");
       });
-    this.props.history.push("/");
   }
 
   render() {

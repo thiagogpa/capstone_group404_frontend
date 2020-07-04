@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+
 import {
   CButton,
   CCard,
@@ -11,17 +12,19 @@ import {
 } from "@coreui/react";
 
 function FAQ() {
+
+
   const [accordion, setAccordion] = useState();
   const [faqs, setFaq] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(
-        "/faq"
-      )
-      .then((response) => {
-        setFaq(response.data);
-      });
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_BACKEND,
+    });
+  
+    axiosInstance.get("/faq").then((response) => {
+      setFaq(response.data);
+    });
   }, []);
 
   const handleOnClickFaq = (question) => {

@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
+import axios from "axios";
 
 export default function withAuth(ComponentToProtect) {
   return class extends Component {
@@ -12,8 +13,17 @@ export default function withAuth(ComponentToProtect) {
     }
 
     componentDidMount() {
-      fetch('/checkToken')
-        .then(res => {
+      let axiosInstance = axios.create({
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        baseURL: process.env.REACT_APP_BACKEND,
+      });
+
+      axiosInstance
+        .get("/checkToken")
+        .then((res) => {
           if (res.status === 200) {
             this.setState({ loading: false });
           } else {
@@ -21,12 +31,11 @@ export default function withAuth(ComponentToProtect) {
             throw error;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
           this.setState({ loading: false, redirect: false });
         });
     }
-
 
     render() {
       const { loading, redirect } = this.state;
@@ -38,5 +47,5 @@ export default function withAuth(ComponentToProtect) {
       }
       return <ComponentToProtect {...this.props} />;
     }
-  }
+  };
 }

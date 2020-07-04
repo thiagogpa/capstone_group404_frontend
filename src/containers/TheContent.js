@@ -19,8 +19,16 @@ const loading = (
 function TheContent() {
   const [routes, setRoutes] = useState(routesLoggedIN);
 
+  let axiosInstance = axios.create({
+    withCredentials: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    baseURL: process.env.REACT_APP_BACKEND,
+  });
+
   useEffect(() => {
-    axios
+    axiosInstance
       .get("/checkToken")
       .then((res) => {
         console.log("RESPONSE");

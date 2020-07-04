@@ -2,7 +2,7 @@
   "name": "capstone",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://lain.myddns.me/react/capstone/",
+  "homepage": "https://wallup-frontend.herokuapp.com/",
   "dependencies": {
     "@coreui/coreui": "^3.2.2",
     "@coreui/icons-react": "^1.0.1",
@@ -12,9 +12,12 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
     "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "formik": "^2.1.4",
     "jsonwebtoken": "^8.5.1",
     "node-sass": "^4.14.1",
+    "path": "^0.12.7",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-cookie": "^4.0.3",
@@ -32,7 +35,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:8080",
   "eslintConfig": {
     "extends": "react-app"
   },

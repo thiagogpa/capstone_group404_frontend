@@ -25,9 +25,16 @@ import logoMini from "../assets/img/logo_mini.png";
 
 function TheSidebar() {
   const [navigation, setNavigation] = useState();
+  let axiosInstance = axios.create({
+    withCredentials: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    baseURL: process.env.REACT_APP_BACKEND,
+  });
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get("/checkToken")
       .then((res) => {
         console.log("RESPONSE");
@@ -50,8 +57,8 @@ function TheSidebar() {
   const show = useSelector((state) => state.sidebarShow);
 
   return (
-    <CSidebar    
-    colorScheme='dark'      
+    <CSidebar
+      colorScheme="dark"
       show={show}
       onShowChange={(val) => dispatch({ type: "set", sidebarShow: val })}
     >
@@ -83,6 +90,6 @@ function TheSidebar() {
       <CSidebarMinimizer className="c-d-md-down-none" />
     </CSidebar>
   );
-};
+}
 
 export default React.memo(TheSidebar);
