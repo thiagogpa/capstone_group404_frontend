@@ -17,6 +17,7 @@ import {
 
 import { Form, Col } from "react-bootstrap";
 
+
 const User = ({ match }) => {
   const [userData, setUser] = useState([]);
   const [addressData, setAddress] = useState([]);
@@ -32,7 +33,18 @@ const User = ({ match }) => {
     });
   }, []);
 
-  const greetingMessage = (value) => {
+  const getBadge = (staff) => {
+    switch (staff) {
+      case "true":
+        return "primary";
+      case "false":
+        return "success";
+      default:
+        return "primary";
+    }
+  };
+
+  const addressSection = (value) => {
     return value.length == 0 ? (
       <div></div>
     ) : (
@@ -126,8 +138,92 @@ const User = ({ match }) => {
                       </Form.Group>
                     </CCol>
                   </CRow>
+                </CCardBody>
+              </CCard>
+            </CCol>
+          </CRow>
+        </Form>
+      </div>
+    );
+  };
 
+  const checkStaff = (value) => {
+    return value === true ? (
+      <CBadge color={getBadge(userData.staff.toString())}>Staff</CBadge>
+    ) : (
+      <CBadge color={getBadge(userData.staff.toString())}>Client</CBadge>
+    );
+  };
 
+  const userSection = (value) => {
+    return value.length == 0 ? (
+      <div></div>
+    ) : (
+      <div>
+        <Form>
+          <CRow>
+            <CCol xs="12">
+              <CCard>
+                <CCardHeader>
+                  User info &nbsp;  {checkStaff(userData.staff)}
+                </CCardHeader>
+                <CCardBody>
+                  <CRow>
+                    <CCol xs="12">
+                      <Form.Group as={Col} controlId="validationFormik01">
+                        <Form.Label>First Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="firstName"
+                          value={userData.firstName}
+                          disabled
+                        />
+                      </Form.Group>
+                    </CCol>
+                  </CRow>
+
+                  <CRow>
+                    <CCol xs="12">
+                      <Form.Group as={Col} controlId="validationFormik01">
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="Doe"
+                          name="lastName"
+                          value={userData.lastName}
+                          disabled
+                        />
+                      </Form.Group>
+                    </CCol>
+                  </CRow>
+
+                  <CRow>
+                    <CCol xs="12">
+                      <Form.Group as={Col} controlId="validationFormik02">
+                        <Form.Label>E-mail</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="email"
+                          value={userData.email}
+                          disabled
+                        />
+                      </Form.Group>
+                    </CCol>
+                  </CRow>
+
+                  <CRow>
+                    <CCol xs="12">
+                      <Form.Group as={Col} controlId="validationFormik02">
+                        <Form.Label>Phone</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="phone"
+                          value={userData.phone}
+                          disabled
+                        />
+                      </Form.Group>
+                    </CCol>
+                  </CRow>
                 </CCardBody>
               </CCard>
             </CCol>
@@ -139,74 +235,8 @@ const User = ({ match }) => {
 
   return (
     <div>
-      <Form>
-        <CRow>
-          <CCol xs="12">
-            <CCard>
-              <CCardHeader>User info</CCardHeader>
-              <CCardBody>
-                <CRow>
-                  <CCol xs="12">
-                    <Form.Group as={Col} controlId="validationFormik01">
-                      <Form.Label>First Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="firstName"
-                        value={userData.firstName}
-                        disabled
-                      />
-                    </Form.Group>
-                  </CCol>
-                </CRow>
-
-                <CRow>
-                  <CCol xs="12">
-                    <Form.Group as={Col} controlId="validationFormik01">
-                      <Form.Label>Last Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Doe"
-                        name="lastName"
-                        value={userData.lastName}
-                        disabled
-                      />
-                    </Form.Group>
-                  </CCol>
-                </CRow>
-
-                <CRow>
-                  <CCol xs="12">
-                    <Form.Group as={Col} controlId="validationFormik02">
-                      <Form.Label>E-mail</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="email"
-                        value={userData.email}
-                        disabled
-                      />
-                    </Form.Group>
-                  </CCol>
-                </CRow>
-
-                <CRow>
-                  <CCol xs="12">
-                    <Form.Group as={Col} controlId="validationFormik02">
-                      <Form.Label>Phone</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="phone"
-                        value={userData.phone}
-                        disabled
-                      />
-                    </Form.Group>
-                  </CCol>
-                </CRow>
-              </CCardBody>
-            </CCard>
-          </CCol>
-        </CRow>
-      </Form>
-      {greetingMessage(addressData)}
+      {userSection(userData)}
+      {addressSection(addressData)}
     </div>
   );
 };

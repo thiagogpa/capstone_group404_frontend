@@ -13,7 +13,6 @@ import {
 
 function FAQ() {
 
-
   const [accordion, setAccordion] = useState();
   const [faqs, setFaq] = useState([]);
 
@@ -28,7 +27,6 @@ function FAQ() {
   }, []);
 
   const handleOnClickFaq = (question) => {
-    console.log(question);
     setAccordion(accordion === question.id ? null : question.id);
   };
 

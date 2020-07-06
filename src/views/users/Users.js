@@ -48,6 +48,14 @@ const Users = () => {
     });
   }, []);
 
+  
+  const checkStaff = (value) => {    
+    return value.staff === true ? (
+      <CBadge color={getBadge(value.staff.toString())}>Staff</CBadge>
+    ) : (
+      <CBadge color={getBadge(value.staff.toString())}>Client</CBadge>
+    );
+  };
 
   return (
     <CRow>
@@ -61,7 +69,7 @@ const Users = () => {
             items={usersData}
             fields={[
               { key: 'firstName', _classes: 'font-weight-bold' },
-              'lastName', 'email', 'staff'
+              'lastName', 'email', { key: 'staff', label: 'Role' },
             ]}
             hover
             striped
@@ -73,10 +81,9 @@ const Users = () => {
               'staff':
                 (item)=>(
                   <td>
-                    <CBadge color={getBadge(item.staff.toString())}>
-                      {item.staff.toString()}
-                    </CBadge>
+                    {checkStaff(item)}
                   </td>
+                  
                 )
             }}
           />
