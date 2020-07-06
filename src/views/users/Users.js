@@ -11,14 +11,14 @@ import {
   CPagination
 } from '@coreui/react'
 
-import usersData from './UsersData'
+import axios from "axios";
 
-const getBadge = status => {
-  switch (status) {
-    case 'Active': return 'success'
-    case 'Inactive': return 'secondary'
-    case 'Pending': return 'warning'
-    case 'Banned': return 'danger'
+//import usersData from './UsersData'
+
+const getBadge = staff => {
+  switch (staff) {
+    case 'true': return 'primary'
+    case 'false': return 'success'
     default: return 'primary'
   }
 }
@@ -28,6 +28,7 @@ const Users = () => {
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
   const [page, setPage] = useState(currentPage)
+  const [usersData, setUsers] = useState([]);
 
   const pageChange = newPage => {
     currentPage !== newPage && history.push(`/users?page=${newPage}`)
@@ -37,20 +38,30 @@ const Users = () => {
     currentPage !== page && setPage(currentPage)
   }, [currentPage, page])
 
+  useEffect(() => {
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_BACKEND,
+    });
+  
+    axiosInstance.get("/api/user").then((response) => {
+      setUsers(response.data);
+    });
+  }, []);
+
+
   return (
     <CRow>
-      <CCol xl={6}>
+      <CCol >
         <CCard>
           <CCardHeader>
             Users
-            <small className="text-muted"> example</small>
           </CCardHeader>
           <CCardBody>
           <CDataTable
             items={usersData}
             fields={[
-              { key: 'name', _classes: 'font-weight-bold' },
-              'registered', 'role', 'status'
+              { key: 'firstName', _classes: 'font-weight-bold' },
+              'lastName', 'email', 'staff'
             ]}
             hover
             striped
@@ -59,11 +70,11 @@ const Users = () => {
             clickableRows
             onRowClick={(item) => history.push(`/users/${item.id}`)}
             scopedSlots = {{
-              'status':
+              'staff':
                 (item)=>(
                   <td>
-                    <CBadge color={getBadge(item.status)}>
-                      {item.status}
+                    <CBadge color={getBadge(item.staff.toString())}>
+                      {item.staff.toString()}
                     </CBadge>
                   </td>
                 )
