@@ -22,33 +22,48 @@ import {
 
 import CBinContext from '../../contexts/BinContext';
 import BinClass from './BinClass';
+import {useControlledComponents} from './useControlledComponents';
 const CBinUpdate = (props) => {
   
+  //the hook to control the changes in react form 
+  const [input, handleInputChange] = useControlledComponents();
+
   const binsContext = useContext(CBinContext);
   let bin = {};
-  let newBinFlag=false;
+  let isNewBin=false;
   if(props.bin){
     bin = props.bin;
   }else{
-    newBinFlag = true;
+    isNewBin = true;
     bin = new BinClass();
   }
 
   const [display, setDisplay] = useState(props.display);
-
   const handleClose=()=>{
     console.log("inside handleClose of CBinDelete Modal");
     console.log(props);
     setDisplay(!display);
     props.setState(false);
   }
+  
   const handleSubmit=()=>{
-    console.log("inside handleDelete of CBinDelete Modal");
+    console.log("inside handleSubmit of CBinDelete Modal");
+    bin.wasteType = input.wasteType;
+    bin.sizeHeight = input.sizeHeight;
+    bin.sizeLong = input.sizeLong;
+    bin.sizeWide = input.sizeWide;
+    bin.amount = input.amount;
+    bin.picture =  input.picture;
+    bin.dailyCost = input.dailyCost;
+    bin.description = input.description;
+    console.log(bin);
+   
     if(binsContext.updateBin){
         binsContext.updateBin(bin);
     }
     if(binsContext.addBin){
-        binsContext.updateBin(bin)
+      console.log("Adding bin....");
+        binsContext.addBin(bin);
     }
     handleClose();
   }
@@ -68,7 +83,7 @@ const CBinUpdate = (props) => {
                 
               <CForm action="" method="post"  className="form-horizontal">
             
-              {!newBinFlag &&<CFormGroup row>
+              {!isNewBin &&<CFormGroup row>
                 <CCol md="1">
                   <CLabel>Bin ID:</CLabel>
                 </CCol>
@@ -79,36 +94,43 @@ const CBinUpdate = (props) => {
              }
 
               <CFormGroup row>
-                    <CCol md={2}>
-                    <CLabel htmlFor="select">Waste Type</CLabel>
-                    </CCol>
-                    <CCol xs="12" md="7">
-                    <CSelect custom name="wasteType" id="select" value = {bin.wasteType}>
-                        <option value="0">Please select</option>
-                        <option value="CONSTRACTION">CONSTRACTION</option>
-                        <option value="MIXED WASTE">MIXED WASTE</option>
-                        <option value="CLEAN FILL">CLEAN FILL</option>
-                    </CSelect>
-                    </CCol>
+              <CCol md={2}>
+              <CLabel htmlFor="select">Waste Type</CLabel>
+              </CCol>
+              <CCol xs="12" md="7">
+              <CSelect name="wasteType" id="wasteType" onChange={handleInputChange}>
+              {isNewBin &&<option value="0">Please select</option>}
+                  <option  {...(bin.wasteType=="CONSTRUCTION" ? {selected:true} : {})}
+                            value="CONSTRACTION">CONSTRACTION</option>
+                  <option { ...(bin.wasteType=="MIXED WASTE" ? {selected:true} :{})} 
+                                value="MIXED WASTE">MIXED WASTE</option>
+                  <option { ...(bin.wasteType=="CLEAN FILL" ? {selected:true} :{})} 
+                                value="CLEAN FILL">CLEAN FILL</option>
+              </CSelect>
+              </CCol>
             </CFormGroup>
 
 
-            <CFormGroup row>
+             <CFormGroup row>
                     <CCol md={2}>
-                    <CLabel htmlFor="dailyCost">Daily Cost</CLabel>
+                       <CLabel htmlFor="dailyCost">Daily Cost</CLabel>
                     </CCol>
-                   
-                    <CCol xs="3" md="3" >
-                    <CInput id="dailyCost" name="dailyCost" value={bin.dailyCost} />
-           
+                   <CCol xs="3" md="3" >
+                        <CInput id="dailyCost" 
+                            name="dailyCost"
+                            defaultValue={bin.dailyCost}
+                            onChange={handleInputChange} />
                     </CCol>
             </CFormGroup>
             <CFormGroup row>
                 <CCol md={2}>
-                <CLabel htmlFor="amount">Amount</CLabel>
+                    <CLabel htmlFor="amount">Amount</CLabel>
                 </CCol>
                 <CCol xs="3" md="3" >
-                <CInput id="amount" name="amount" value={bin.amount} />
+                    <CInput id="amount" 
+                            name="amount" 
+                            defaultValue={bin.amount}
+                            onChange={handleInputChange} />
                 </CCol>
             </CFormGroup>
 
@@ -117,42 +139,50 @@ const CBinUpdate = (props) => {
                     <CLabel>Size(feet):</CLabel>
                 </CCol>
                     <CCol xs="3" md="1" >
-                    <CInput id="text-input" name="sizeLong" value={bin.sizeLong}  placeholder="Size Long " />
+                    <CInput id="sizeLong" name="sizeLong" 
+                            defaultValue={bin.sizeLong}
+                            onChange={handleInputChange}/>
                     <CFormText>Length</CFormText>
                     </CCol>X
                     <CCol xs="4" md="1">
-                    <CInput id="text-input" name="sizeWide" value={bin.sizeWide}  placeholder="Size Wide " />
+                    <CInput id="sizeWide" name="sizeWide" 
+                            defaultValue={bin.sizeWide}
+                            onChange={handleInputChange}/>
                     <CFormText>Width</CFormText>
                     </CCol>X
                     <CCol xs="4" md="1">
-                    <CInput id="text-input" name="sizeHeight" value={bin.sizeHeight}  placeholder="Size Height " />
+                    <CInput id="sizeHeight" name="sizeHeight" 
+                            defaultValue={bin.sizeHeight}
+                            onChange={handleInputChange}/>
                     <CFormText>Length</CFormText>
                     </CCol>
             </CFormGroup>
             <CFormGroup row>
                 <CCol md="2">
-                  <CLabel htmlFor="textarea-input">Description</CLabel>
+                  <CLabel htmlFor="description">Description</CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
                   <CTextarea 
-                    name="textarea-input" 
-                    id="textarea-input" 
+                    name="description" 
+                    id="description" 
                     rows="9"
                     placeholder="Description..."
-                    value={bin.description} 
+                    defaultValue={bin.description}
+                    onChange={handleInputChange} 
                   />
                 </CCol>
               </CFormGroup>
-              
               <CFormGroup row>
-                <CLabel col md={2}>Bin picture</CLabel>
-                <CCol xs="12" md="8">
-                  <CInputFile custom id="custom-file-input"/>
-                  <CLabel htmlFor="custom-file-input" variant="custom-file">
-                    Select file...
-                  </CLabel>
-                </CCol>
-              </CFormGroup>
+                    <CCol md={2}>
+                    <CLabel htmlFor="picture">Daily Cost</CLabel>
+                    </CCol>
+                    <CCol xs="3" md="6" >
+                    <CInput id="picture" name="picture" 
+                            defaultValue={bin.picture}
+                            onChange={handleInputChange}  />
+           
+                    </CCol>
+            </CFormGroup>
             </CForm>
             </CModalBody>
             <CModalFooter>
@@ -163,5 +193,6 @@ const CBinUpdate = (props) => {
   
   )
 }
+
 
 export default CBinUpdate 

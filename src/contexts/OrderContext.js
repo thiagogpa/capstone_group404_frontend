@@ -1,3 +1,4 @@
+//context keeps data from the stepper 
 import React from 'react';
 
 const OrderContext = React.createContext();
