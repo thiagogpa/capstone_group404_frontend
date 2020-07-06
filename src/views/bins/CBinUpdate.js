@@ -24,51 +24,46 @@ import CBinContext from '../../contexts/BinContext';
 import BinClass from './BinClass';
 import {useControlledComponents} from './useControlledComponents';
 const CBinUpdate = (props) => {
-  
-  //the hook to control the changes in react form 
-  const [input, handleInputChange] = useControlledComponents();
 
-  const binsContext = useContext(CBinContext);
+  //the hook to control the changes in react form 
   let bin = {};
-  let isNewBin=false;
-  if(props.bin){
+  const isNewBin=props.isNewBin;
+  if(!isNewBin){
     bin = props.bin;
   }else{
-    isNewBin = true;
     bin = new BinClass();
   }
-
+  const [input, handleInputChange] = useControlledComponents(bin);
+  const binsContext = useContext(CBinContext);
+  
   const [display, setDisplay] = useState(props.display);
   const handleClose=()=>{
-    console.log("inside handleClose of CBinDelete Modal");
-    console.log(props);
     setDisplay(!display);
     props.setState(false);
   }
   
   const handleSubmit=()=>{
-    console.log("inside handleSubmit of CBinDelete Modal");
+    console.log("=====inside handleSubmit of CBinUpdate Form===");
     bin.wasteType = input.wasteType;
     bin.sizeHeight = input.sizeHeight;
     bin.sizeLong = input.sizeLong;
     bin.sizeWide = input.sizeWide;
+    bin.available = input.available;
     bin.amount = input.amount;
     bin.picture =  input.picture;
     bin.dailyCost = input.dailyCost;
     bin.description = input.description;
     console.log(bin);
    
-    if(binsContext.updateBin){
-        binsContext.updateBin(bin);
-    }
-    if(binsContext.addBin){
+    if(isNewBin){
       console.log("Adding bin....");
-        binsContext.addBin(bin);
+      binsContext.addBin(bin);  
+    }else{
+            binsContext.updateBin(bin);   
     }
     handleClose();
   }
 
-  
   return (
         <CModal 
             show={display} 
@@ -133,6 +128,17 @@ const CBinUpdate = (props) => {
                             onChange={handleInputChange} />
                 </CCol>
             </CFormGroup>
+            <CFormGroup row>
+                <CCol md={2}>
+                    <CLabel htmlFor="available">Available</CLabel>
+                </CCol>
+                <CCol xs="3" md="3" >
+                    <CInput id="available" 
+                            name="available" 
+                            defaultValue={bin.available}
+                            onChange={handleInputChange} />
+                </CCol>
+            </CFormGroup>
 
             <CFormGroup row>   
             <CCol md="2">
@@ -174,7 +180,7 @@ const CBinUpdate = (props) => {
               </CFormGroup>
               <CFormGroup row>
                     <CCol md={2}>
-                    <CLabel htmlFor="picture">Daily Cost</CLabel>
+                    <CLabel htmlFor="picture">Picture</CLabel>
                     </CCol>
                     <CCol xs="3" md="6" >
                     <CInput id="picture" name="picture" 

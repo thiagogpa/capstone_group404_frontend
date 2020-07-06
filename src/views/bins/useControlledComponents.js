@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-export const useControlledComponents = () => {
-  const [input, setInput] = useState({})
+export const useControlledComponents = (initialState) => {
+  const [input, setInput] = useState(initialState)
 
   const handleInputChange = (e) => setInput({
     ...input,

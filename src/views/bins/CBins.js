@@ -19,8 +19,6 @@ import { CBinProvider } from '../../contexts/BinContext';
 import CBinDelete from './CBinDelete';
 import CBinUpdate from './CBinUpdate';
 
-const binsAPI = require('./BinsAPI');
-
 console.log("===============CBin====================");
 
 //defining fields for the table 
@@ -53,9 +51,16 @@ const fields = [
 /// function returns component 
 const CBins = () => {
 
+let axiosInstance = axios.create({
+    withCredentials: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    baseURL: process.env.REACT_APP_BACKEND,
+  }); 
 //getting data and transform for use in the table  
 useEffect(() => {
-  axios.get(binsAPI.bins)
+  axiosInstance.get("/api/bin")
        .then((response) => {
         const transformedBinList = response.data.map(item => BinClass.from(item));
         setBinsList(transformedBinList);
@@ -69,23 +74,27 @@ const[currentBin,setCurrentBin] = useState({});
 //define CRUD operations on binlist
 const removeBin = (binId) => {
         console.log("Remove bin ",binId);
-        axios.delete(binsAPI.bins+"/"+binId)
+        axiosInstance.delete("/api/bin/"+binId)
         .then((response)=>setBinsList(binsList.filter(bin=>!(bin.id===binId))))
         .catch(error=>setAlertMessage(error.message));
  };
 
 const addBin = (bin) => {
-          console.log("Add bin",bin);
-          axios.post(binsAPI.bins, bin)
-          .then(()=>setBinsList(binsList.push(bin)))
+  axiosInstance.post("/api/bin/", bin)
+          .then((response)=>{ bin.id=response.data.id;  
+                              setBinsList([...binsList.push(bin)])})
           .catch(error=>setAlertMessage(error.message));
     }
 
 const updateBin = (bin) => {
       console.log("Update bin ",bin.id);
-      let binIndex = binsList.findIndex((b => b.id === bin.id));
-      binsList[binIndex] = bin;
-      setBinsList([...binsList]); 
+
+      axiosInstance.put("/api/bin/"+bin.id, bin)
+      .then((responce)=>{ console.log(responce);
+                          let binIndex = binsList.findIndex((b => b.id === bin.id));
+                          binsList[binIndex] = bin;
+                          setBinsList([...binsList]);})
+      .catch(error=>setAlertMessage(error.message));
 };
   
 //all functions are set as context to pass to other components
@@ -105,6 +114,7 @@ const binContextValue = {
       removeBin:removeBin,
       bin: currentBin,
     };
+
 
 //Form Event handlers 
 
@@ -141,7 +151,7 @@ const handleAddButton=()=>{
             <CBinProvider value={binContextValue}>
             {deleteFormState &&<CBinDelete display = {true} setState={setDeleteFormState} bin={currentBin} />}
             {updateFormState &&<CBinUpdate display = {true} setState={setUpdateFormState} bin={currentBin} title={"Update Bin"} />}
-            {addFormState &&<CBinUpdate display = {true} setState={setAddFormState} title={"Add new Bin"} />}
+            {addFormState &&<CBinUpdate display = {true} setState={setAddFormState} title={"Add new Bin"} isNewBin={true} />}
             
             <CDataTable className='display-linebreak'
               items={binsList}
@@ -197,7 +207,7 @@ const handleAddButton=()=>{
                   'dailyCost':
                   (item)=>{
                    return(
-                       <td className="align-middle"> {item.daily_cost}
+                       <td className="align-middle"> {item.dailyCost}
                       </td>
                    )
                   },
