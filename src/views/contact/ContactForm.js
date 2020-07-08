@@ -10,6 +10,8 @@ import {
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 
+import emailjs from 'emailjs-com';
+
 import { Form, Col } from "react-bootstrap";
 
 import { Formik } from "formik";
@@ -23,7 +25,14 @@ function ContactForm() {
 
   const handleSubmit = (event) => {
     setSuccess(!success);
-    console.log(event);
+
+    emailjs.send('default_service','template_gIjRZkOL_clone', event, 'user_90jReKciErRnt7OCXf6k3')
+    .then((response) => {
+       console.log('SUCCESS!', response.status, response.text);
+    }, (err) => {
+       console.log('FAILED...', err);
+    });
+
   };
 
   const handleChange = (event) => {};
@@ -58,6 +67,7 @@ function ContactForm() {
           lastName: "",
           email: "",
           message: "",
+          to_email: process.env.REACT_APP_CONTACT_EMAIL
         }}
       >
         {({
