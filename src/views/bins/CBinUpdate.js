@@ -96,7 +96,7 @@ const CBinUpdate = (props) => {
               <CSelect name="wasteType" id="wasteType" onChange={handleInputChange}>
               {isNewBin &&<option value="0">Please select</option>}
                   <option  {...(bin.wasteType=="CONSTRUCTION" ? {selected:true} : {})}
-                            value="CONSTRACTION">CONSTRACTION</option>
+                            value="CONSTRUCTION">CONSTRUCTION</option>
                   <option { ...(bin.wasteType=="MIXED WASTE" ? {selected:true} :{})} 
                                 value="MIXED WASTE">MIXED WASTE</option>
                   <option { ...(bin.wasteType=="CLEAN FILL" ? {selected:true} :{})} 
