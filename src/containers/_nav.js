@@ -43,18 +43,18 @@ export default [
   {
     _tag: "CSidebarNavDropdown",
     name: "Orders",
-    route: "/order",
+    route: "/orders",
     icon: "cib-cashapp",
     _children: [
       {
         _tag: "CSidebarNavItem",
         name: "Add",
-        to: "/order/add",
+        to: "/orders/add",
       },
       {
         _tag: "CSidebarNavItem",
         name: "List",
-        to: "/order/list",
+        to: "/orders",
       },
     ],
   },

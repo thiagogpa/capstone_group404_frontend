@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import CIcon from "@coreui/icons-react";
-
-import usersData from "./UsersData";
 import axios from "axios";
 
 import {
