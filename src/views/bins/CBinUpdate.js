@@ -1,4 +1,7 @@
 import React, { useState, useContext } from 'react'
+import {Formik, ErrorMessage}  from 'formik';
+import * as Yup from 'yup';
+
 import {
   CButton,
   CModal,
@@ -7,64 +10,104 @@ import {
   CModalHeader,
   CModalTitle,
   CCol,
-  CRow,
   CForm,
   CFormGroup,
   CFormText,
   CTextarea,
   CInput,
   CInputFile,
-  CInputCheckbox,
-  CInputRadio,
   CLabel,
   CSelect,
+  CValidFeedback,
+  CInvalidFeedback
 } from '@coreui/react'
 
 import CBinContext from '../../contexts/BinContext';
 import BinClass from './BinClass';
-import {useControlledComponents} from './useControlledComponents';
+//import {useControlledComponents} from './useControlledComponents';
+
+//component form to add/update a bin
 const CBinUpdate = (props) => {
 
-  //the hook to control the changes in react form 
+  //initializing bin
   let bin = {};
   const isNewBin=props.isNewBin;
   if(!isNewBin){
     bin = props.bin;
   }else{
     bin = new BinClass();
-  }
-  const [input, handleInputChange] = useControlledComponents(bin);
+ }
+
+//CRUD operations and visibility setting are passed through context 
   const binsContext = useContext(CBinContext);
-  
   const [display, setDisplay] = useState(props.display);
   const handleClose=()=>{
     setDisplay(!display);
     props.setState(false);
   }
   
-  const handleSubmit=()=>{
+//this function handles submission
+  const handleFormSubmit=(values)=>{
     console.log("=====inside handleSubmit of CBinUpdate Form===");
-    bin.wasteType = input.wasteType;
-    bin.sizeHeight = input.sizeHeight;
-    bin.sizeLong = input.sizeLong;
-    bin.sizeWide = input.sizeWide;
-    bin.available = input.available;
-    bin.amount = input.amount;
-    bin.picture =  input.picture;
-    bin.dailyCost = input.dailyCost;
-    bin.description = input.description;
+    bin.updateBin(values);
     console.log(bin);
    
     if(isNewBin){
       console.log("Adding bin....");
       binsContext.addBin(bin);  
     }else{
-            binsContext.updateBin(bin);   
+      binsContext.updateBin(bin);   
     }
     handleClose();
   }
 
+//validation schema
+
+const binValidationSchema = Yup.object().shape({
+  wasteType: Yup.mixed().oneOf(["CONSTRUCTION","MIXED VALUE","CLEAN FILL"]),
+  
+  sizeLong: Yup.number()
+                .required("Size is required")
+                .positive()
+                .integer()
+                .max(20)
+                .min(1),
+  sizeHeight: Yup.number()
+                .required("Size is required")
+                              .positive()
+                              .integer()
+                              .max(20)
+                              .min(1),
+  sizeWide: Yup.number()
+            .positive()
+            .integer()
+            .max(20)
+            .min(1),
+  dailyCost: Yup.number().required("Daily cost is required").positive(),
+  amount: Yup.number().required().positive().integer(),
+  available: Yup.number().positive().integer().min(0).max(Yup.ref("amount")),
+  picture: Yup.string().optional()
+              .matches("\.(gif|jpe?g|tiff?|png|webp|bmp)$",
+                        "Must be one of following: gif, jpeg, tiff, png, webp, bmp",
+                        { excludeEmptyString: true })
+
+
+});
+
   return (
+    <>
+    <Formik initialValues={bin}
+            onSubmit={(data)=>{
+              console.log("on submit")
+              console.log(data);
+              handleFormSubmit(data);
+            }}
+            validationSchema={BinClass.getValidationSchema()}>
+            {({values,handleChange,errors,handleBlur,handleSubmit})=>{
+              console.log("======FORMIK FORM HANDLING=======")
+              console.log("values:" + values);
+              console.log("errors:" + errors);
+                return (
         <CModal 
             show={display} 
             onClose={() => handleClose() }
@@ -76,56 +119,60 @@ const CBinUpdate = (props) => {
               </CModalHeader>
               <CModalBody>
                 
-              <CForm action="" method="post"  className="form-horizontal">
+              <CForm onSubmit={handleSubmit} method="post"  className="form-horizontal">
             
               {!isNewBin &&<CFormGroup row>
-                <CCol md="1">
+                <CCol md="2">
                   <CLabel>Bin ID:</CLabel>
                 </CCol>
                 <CCol xs="12" md="2">
                   <p className="form-control-static">{bin.id}</p>
                 </CCol>
-              </CFormGroup>
-             }
+              </CFormGroup>}
+             
 
               <CFormGroup row>
               <CCol md={2}>
               <CLabel htmlFor="select">Waste Type</CLabel>
               </CCol>
               <CCol xs="12" md="7">
-              <CSelect name="wasteType" id="wasteType" onChange={handleInputChange}>
+              <CSelect name="wasteType" invalid={!!errors.wasteType} onChange={handleChange}>
               {isNewBin &&<option value="0">Please select</option>}
-                  <option  {...(bin.wasteType=="CONSTRUCTION" ? {selected:true} : {})}
+                  <option  {...(values.wasteType=="CONSTRUCTION" ? {selected:true} : {})}
                             value="CONSTRUCTION">CONSTRUCTION</option>
-                  <option { ...(bin.wasteType=="MIXED WASTE" ? {selected:true} :{})} 
+                  <option { ...(values.wasteType=="MIXED WASTE" ? {selected:true} :{})} 
                                 value="MIXED WASTE">MIXED WASTE</option>
-                  <option { ...(bin.wasteType=="CLEAN FILL" ? {selected:true} :{})} 
+                  <option { ...(values.wasteType=="CLEAN FILL" ? {selected:true} :{})} 
                                 value="CLEAN FILL">CLEAN FILL</option>
               </CSelect>
+              <CInvalidFeedback>{errors.wasteType}</CInvalidFeedback>
               </CCol>
             </CFormGroup>
 
 
              <CFormGroup row>
-                    <CCol md={2}>
+                  <CCol md={2}>
                        <CLabel htmlFor="dailyCost">Daily Cost</CLabel>
-                    </CCol>
-                   <CCol xs="3" md="3" >
-                        <CInput id="dailyCost" 
-                            name="dailyCost"
-                            defaultValue={bin.dailyCost}
-                            onChange={handleInputChange} />
-                    </CCol>
+                  </CCol>
+                  <CCol xs="3" md="3" >
+                        <CInput name="dailyCost"
+                               defaultValue={values.dailyCost} 
+                               onChange={handleChange}
+                               invalid={!!errors.dailyCost}/>
+                        <CValidFeedback>Cool! Input is valid</CValidFeedback>
+                        <CInvalidFeedback>{errors.dailyCost}</CInvalidFeedback>       
+                  </CCol>
             </CFormGroup>
             <CFormGroup row>
                 <CCol md={2}>
                     <CLabel htmlFor="amount">Amount</CLabel>
                 </CCol>
                 <CCol xs="3" md="3" >
-                    <CInput id="amount" 
-                            name="amount" 
-                            defaultValue={bin.amount}
-                            onChange={handleInputChange} />
+                    <CInput name="amount" 
+                            defaultValue={values.amount}
+                            onChange={handleChange} 
+                            invalid={!!errors.amount}/>
+                    <CInvalidFeedback>{errors.amount}</CInvalidFeedback>
                 </CCol>
             </CFormGroup>
             <CFormGroup row>
@@ -135,9 +182,11 @@ const CBinUpdate = (props) => {
                 <CCol xs="3" md="3" >
                     <CInput id="available" 
                             name="available" 
-                            defaultValue={bin.available}
-                            onChange={handleInputChange} />
+                            defaultValue={values.available}
+                            onChange={handleChange}
+                            invalid = {!!errors.available} />
                 </CCol>
+                <CInvalidFeedback>{errors.available}</CInvalidFeedback>
             </CFormGroup>
 
             <CFormGroup row>   
@@ -146,22 +195,31 @@ const CBinUpdate = (props) => {
                 </CCol>
                     <CCol xs="3" md="1" >
                     <CInput id="sizeLong" name="sizeLong" 
-                            defaultValue={bin.sizeLong}
-                            onChange={handleInputChange}/>
+                            defaultValue={values.sizeLong}
+                            onChange={handleChange}
+                            invalid={errors.sizeLong}/>
                     <CFormText>Length</CFormText>
+                    <CInvalidFeedback>{errors.sizeLong}</CInvalidFeedback>
                     </CCol>X
                     <CCol xs="4" md="1">
                     <CInput id="sizeWide" name="sizeWide" 
-                            defaultValue={bin.sizeWide}
-                            onChange={handleInputChange}/>
-                    <CFormText>Width</CFormText>
+                            defaultValue={values.sizeWide}
+                            onChange={handleChange}
+                            invalid={errors.sizeWide}/>
+                             <CFormText>Width</CFormText>
+                             <CInvalidFeedback>{errors.sizeWide}</CInvalidFeedback>
+                           
                     </CCol>X
                     <CCol xs="4" md="1">
                     <CInput id="sizeHeight" name="sizeHeight" 
-                            defaultValue={bin.sizeHeight}
-                            onChange={handleInputChange}/>
-                    <CFormText>Length</CFormText>
+                            defaultValue={values.sizeHeight}
+                            onChange={handleChange}
+                            invalid={errors.sizeHeight}/>
+                            <CFormText>Length</CFormText>
+                            <CInvalidFeedback>{errors.sizeHeight}</CInvalidFeedback>
+                           
                     </CCol>
+              <CInvalidFeedback>{errors.sizeLong}<br/>{errors.sizeHeight}<br/>{errors.sizeWide}</CInvalidFeedback>
             </CFormGroup>
             <CFormGroup row>
                 <CCol md="2">
@@ -173,8 +231,8 @@ const CBinUpdate = (props) => {
                     id="description" 
                     rows="9"
                     placeholder="Description..."
-                    defaultValue={bin.description}
-                    onChange={handleInputChange} 
+                    defaultValue={values.description}
+                    onChange={handleChange}
                   />
                 </CCol>
               </CFormGroup>
@@ -184,21 +242,23 @@ const CBinUpdate = (props) => {
                     </CCol>
                     <CCol xs="3" md="6" >
                     <CInput id="picture" name="picture" 
-                            defaultValue={bin.picture}
-                            onChange={handleInputChange}  />
-           
+                            value={values.picture}
+                            onChange={handleChange}
+                            invalid={!!errors.picture}  />
+                    <CInvalidFeedback>{errors.picture}</CInvalidFeedback>
                     </CCol>
+
             </CFormGroup>
             </CForm>
             </CModalBody>
             <CModalFooter>
-                <CButton color="primary" onClick={() => handleSubmit()}>Submit</CButton>{' '}
+                <CButton type="submit" onClick={() => handleSubmit()} color="primary">Submit</CButton>{' '}
                 <CButton color="secondary" onClick={() => handleClose()}>Cancel</CButton>
               </CModalFooter>
-            </CModal>
-  
-  )
+            </CModal>)}}
+
+       </Formik>
+       </>
+  )//end of return
 }
-
-
 export default CBinUpdate 

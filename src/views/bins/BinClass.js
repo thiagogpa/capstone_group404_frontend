@@ -1,3 +1,5 @@
+import * as Yup from 'yup';
+
 class BinClass{
    
     constructor(id,waste_type, size_long, size_height,size_wide,daily_cost,picture_url, available,description) {
@@ -34,6 +36,46 @@ class BinClass{
       getMeasurementString(){
         return `${this.sizeLong}ft. X ${this.sizeHeight}ft. X ${this.sizeWide}ft.`;
       }
+
+      updateBin(object){
+        for (let key in object) {
+          this[key] = object[key];
+        }
+      }
+
+      static getValidationSchema(){
+      return Yup.object().shape({
+        wasteType: Yup.mixed().oneOf(["CONSTRUCTION","MIXED VALUE","CLEAN FILL"]),
+        
+        sizeLong: Yup.number()
+                      .required("Size is required")
+                      .positive()
+                      .integer()
+                      .max(20)
+                      .min(1),
+        sizeHeight: Yup.number()
+                      .required("Size is required")
+                                    .positive()
+                                    .integer()
+                                    .max(20)
+                                    .min(1),
+        sizeWide: Yup.number()
+                  .positive()
+                  .integer()
+                  .max(20)
+                  .min(1),
+        dailyCost: Yup.number().required("Daily cost is required").positive(),
+        amount: Yup.number().required().positive().integer(),
+        available: Yup.number().positive().integer().min(0).max(Yup.ref("amount")),
+        picture: Yup.string().optional()
+                    .matches("\.(gif|jpe?g|tiff?|png|webp|bmp)$",
+                              "Must be one of following: gif, jpeg, tiff, png, webp, bmp",
+                              { excludeEmptyString: true })
+      
+      
+      });
+    }
+
 
     }
 export default BinClass;
