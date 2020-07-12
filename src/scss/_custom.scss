@@ -1,1 +1,5 @@
 // Here you can add other styles
+.display-linebreak, .display-linebreak > * {
+    white-space: pre-line;
+  }
+  
