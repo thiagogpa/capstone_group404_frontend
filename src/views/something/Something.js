@@ -18,11 +18,11 @@ import CUseFormik from './CUseFormik';
 //     </>)
 // }
 
-const Something = ()=>{
-  return(
-    <>
-      <CUseFormik/>
-    </>)
-}
+// const Something = ()=>{
+//   return(
+//     <>
+//       <CUseFormik/>
+//     </>)
+// }
 
 export default  Something;
