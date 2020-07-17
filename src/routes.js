@@ -1,6 +1,7 @@
 import React from 'react';
 
 const Orders = React.lazy(() => import('./views/orders/Orders'));
+const Order = React.lazy(() => import('./views/orders/OrderDetails'));
 
 const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
@@ -26,6 +27,7 @@ const routesLoggedIN = [
   { path: '/orders', exact: true,  name: 'Orders', component: Orders },
   { path: '/orders/add', exact: true, name: 'Add', component: Orders },
   { path: '/orders/list', exact: true, name: 'List of Orders', component: Orders },  
+  { path: '/orders/:id', exact: true, name: 'Order Details', component: Order },  
 
   { path: '/faq', exact: true, name: 'Faq', component: Faq },
   { path: '/contact', exact: true, name: 'Contact', component: Contact },
