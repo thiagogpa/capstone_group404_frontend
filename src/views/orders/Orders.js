@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
+
 import { useHistory, useLocation } from "react-router-dom";
+
+// Import CSV package
+// This requires npm install react-csv
+// You can use the 'separator' parameter to select the character to be used as a separator
+import { CSVLink, CSVDownload } from "react-csv";
+
 import {
   CBadge,
   CCard,
@@ -146,6 +153,8 @@ const Orders = () => {
     timeZone: "America/Toronto",
   };
 
+  var ordersList = filteredOrdersData;
+
   return (
     <CRow>
       <CCol>
@@ -205,10 +214,14 @@ const Orders = () => {
                     <CBadge color={getBadge(item.status)}>{item.status}</CBadge>
                   </td>
                 ),
+
               }}
             />
           </CCardBody>
         </CCard>
+        <CButton color="primary" variant="outline" type="submit" class="btn btn-secondary" mr-1 mb-1>
+          <CSVLink data={ordersList} separator={","}>Export orders list to CSV file</CSVLink>
+        </CButton>
       </CCol>
     </CRow>
   );

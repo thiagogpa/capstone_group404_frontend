@@ -222,6 +222,7 @@ const User = ({ match }) => {
                       </Form.Group>
                     </CCol>
                   </CRow>
+
                 </CCardBody>
               </CCard>
             </CCol>
@@ -231,6 +232,7 @@ const User = ({ match }) => {
     );
   };
 
+  
   return (
     <div>
       {userSection(userData)}
