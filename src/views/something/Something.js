@@ -1,6 +1,7 @@
 import React ,{useState} from 'react';
 
 import Wizard from '../orders/COrderStepper';
+import CUseFormik from './CUseFormik';
 
  const Something = ()=>{
    return(
@@ -17,11 +18,11 @@ import Wizard from '../orders/COrderStepper';
 //     </>)
 // }
 
-// const Something = ()=>{
-//   return(
-//     <>
-//       <CUseFormik/>
-//     </>)
-// }
+const Something = ()=>{
+  return(
+    <>
+      <CUseFormik/>
+    </>)
+}
 
 export default  Something;
