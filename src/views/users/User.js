@@ -10,6 +10,7 @@ import {
   CCardFooter,
   CCardHeader,
   CCol,
+  CFormGroup,
   CRow,
 } from "@coreui/react";
 
@@ -42,109 +43,6 @@ const User = ({ match }) => {
     }
   };
 
-  const addressSection = (value) => {
-    return value.length == 0 ? (
-      <div></div>
-    ) : (
-      <div>
-        <Form>
-          <CRow>
-            <CCol xs="12">
-              <CCard>
-                <CCardHeader>Address info</CCardHeader>
-                <CCardBody>
-                  <CRow>
-                    <CCol xs="12">
-                      <Form.Group as={Col} controlId="validationFormik01">
-                        <Form.Label>Street</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="Street"
-                          value={value[0].street}
-                          disabled
-                        />
-                      </Form.Group>
-                    </CCol>
-                  </CRow>
-
-                  <CRow>
-                    <CCol xs="12">
-                      <Form.Group as={Col} controlId="validationFormik01">
-                        <Form.Label>Number</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="number"
-                          value={value[0].numberStreet}
-                          disabled
-                        />
-                      </Form.Group>
-                    </CCol>
-                  </CRow>
-
-                  <CRow>
-                    <CCol xs="12">
-                      <Form.Group as={Col} controlId="validationFormik01">
-                        <Form.Label>Province</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="province"
-                          value={value[0].province}
-                          disabled
-                        />
-                      </Form.Group>
-                    </CCol>
-                  </CRow>
-
-                  <CRow>
-                    <CCol xs="12">
-                      <Form.Group as={Col} controlId="validationFormik01">
-                        <Form.Label>City</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="city"
-                          value={value[0].city}
-                          disabled
-                        />
-                      </Form.Group>
-                    </CCol>
-                  </CRow>
-
-                  <CRow>
-                    <CCol xs="12">
-                      <Form.Group as={Col} controlId="validationFormik01">
-                        <Form.Label>Zipcode</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="zipcode"
-                          value={value[0].zipcode}
-                          disabled
-                        />
-                      </Form.Group>
-                    </CCol>
-                  </CRow>
-
-                  <CRow>
-                    <CCol xs="12">
-                      <Form.Group as={Col} controlId="validationFormik01">
-                        <Form.Label>Street</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="Street"
-                          value={value[0].street}
-                          disabled
-                        />
-                      </Form.Group>
-                    </CCol>
-                  </CRow>
-                </CCardBody>
-              </CCard>
-            </CCol>
-          </CRow>
-        </Form>
-      </div>
-    );
-  };
-
   const checkStaff = (value) => {
     return value === true ? (
       <CBadge color={getBadge(userData.staff.toString())}>Staff</CBadge>
@@ -162,13 +60,11 @@ const User = ({ match }) => {
           <CRow>
             <CCol xs="12">
               <CCard>
-                <CCardHeader>
-                  User info &nbsp;  {checkStaff(userData.staff)}
-                </CCardHeader>
+                <CCardHeader> User info &nbsp;  {checkStaff(userData.staff)}</CCardHeader>
                 <CCardBody>
-                  <CRow>
-                    <CCol xs="12">
-                      <Form.Group as={Col} controlId="validationFormik01">
+                  <CFormGroup row>
+                    <CCol md="6">
+                      <Form.Group controlId="validationFormik01">
                         <Form.Label>First Name</Form.Label>
                         <Form.Control
                           type="text"
@@ -178,11 +74,9 @@ const User = ({ match }) => {
                         />
                       </Form.Group>
                     </CCol>
-                  </CRow>
 
-                  <CRow>
-                    <CCol xs="12">
-                      <Form.Group as={Col} controlId="validationFormik01">
+                    <CCol md="6">
+                      <Form.Group controlId="validationFormik01">
                         <Form.Label>Last Name</Form.Label>
                         <Form.Control
                           type="text"
@@ -193,11 +87,11 @@ const User = ({ match }) => {
                         />
                       </Form.Group>
                     </CCol>
-                  </CRow>
+                  </CFormGroup>
 
-                  <CRow>
-                    <CCol xs="12">
-                      <Form.Group as={Col} controlId="validationFormik02">
+                  <CFormGroup row>
+                    <CCol md="6">
+                      <Form.Group controlId="validationFormik02">
                         <Form.Label>E-mail</Form.Label>
                         <Form.Control
                           type="text"
@@ -207,11 +101,9 @@ const User = ({ match }) => {
                         />
                       </Form.Group>
                     </CCol>
-                  </CRow>
 
-                  <CRow>
-                    <CCol xs="12">
-                      <Form.Group as={Col} controlId="validationFormik02">
+                    <CCol md="6">
+                      <Form.Group controlId="validationFormik02">
                         <Form.Label>Phone</Form.Label>
                         <Form.Control
                           type="text"
@@ -221,8 +113,92 @@ const User = ({ match }) => {
                         />
                       </Form.Group>
                     </CCol>
-                  </CRow>
+                  </CFormGroup>
+                </CCardBody>
+              </CCard>
+            </CCol>
+          </CRow>
+        </Form>
+      </div>
+    );
+  };
 
+  const addressSection = (value) => {
+    return value.length == 0 ? (
+      <div></div>
+    ) : (
+      <div>
+        <Form>
+          <CRow>
+            <CCol xs="12">
+              <CCard>
+                <CCardHeader>Delivery address info</CCardHeader>
+                <CCardBody>
+                  <CFormGroup row>
+                    <CCol md="10">
+                      <Form.Group controlId="validationFormik01">
+                        <Form.Label>Street</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="Street"
+                          value={value[0].street}
+                          disabled
+                        />
+                      </Form.Group>
+                    </CCol>
+
+                    <CCol md="2">
+                      <Form.Group controlId="validationFormik01">
+                        <Form.Label>Number</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="number"
+                          value={value[0].numberStreet}
+                          disabled
+                        />
+                      </Form.Group>
+                    </CCol>
+                  </CFormGroup>
+
+                  <CFormGroup row>
+                    <CCol md="2">
+                      <Form.Group controlId="validationFormik01">
+                        <Form.Label>Zipcode</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="zipcode"
+                          value={value[0].zipcode}
+                          disabled
+                        />
+                      </Form.Group>
+                    </CCol>
+                  
+
+                  
+                    <CCol md="5">
+                      <Form.Group controlId="validationFormik01">
+                        <Form.Label>Province</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="province"
+                          value={value[0].province}
+                          disabled
+                        />
+                      </Form.Group>
+                    </CCol>
+
+                    <CCol md="5">
+                      <Form.Group controlId="validationFormik01">
+                        <Form.Label>City</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="city"
+                          value={value[0].city}
+                          disabled
+                        />
+                      </Form.Group>
+                    </CCol>
+                  </CFormGroup>
                 </CCardBody>
               </CCard>
             </CCol>
