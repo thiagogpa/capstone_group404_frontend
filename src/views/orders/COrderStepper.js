@@ -30,7 +30,6 @@ import {
 import CInputFormik from '../components/CInputFormik' 
 import {Wizard,WizardStep} from '../components/Wizard'
 import COrderDatesForm from "./COrderDatesForm";
-import CBinOrderForm from "./CBinOrderForm";
 import CBinPickerForm from './CBinPickerForm';
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
