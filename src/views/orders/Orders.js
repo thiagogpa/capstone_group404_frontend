@@ -154,6 +154,7 @@ const Orders = () => {
   };
 
   var ordersList = filteredOrdersData;
+  var fileName = "WallUp-Orders-List.csv";
 
   return (
     <CRow>
@@ -219,8 +220,8 @@ const Orders = () => {
             />
           </CCardBody>
         </CCard>
-        <CButton color="primary" variant="outline" type="submit" class="btn btn-secondary" mr-1 mb-1>
-          <CSVLink data={ordersList} separator={","}>Export orders list to CSV file</CSVLink>
+        <CButton color="primary" variant="outline" type="submit" class="btn btn-secondary" >
+          <CSVLink data={ordersList} separator={","} filename={fileName} >Export orders list to CSV file</CSVLink>
         </CButton>
       </CCol>
     </CRow>
