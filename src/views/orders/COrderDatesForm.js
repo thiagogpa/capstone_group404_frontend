@@ -1,37 +1,57 @@
-import React,{} from 'react';
-import { useFormik } from 'formik';
+import React from 'react';
+import {
+  CRow,
+  CCol,
+  CContainer
+} from '@coreui/react'
+import CInputFormik from '../components/CInputFormik'
 
 const COrderDatesForm = () => {
-  // Pass the useFormik() hook initial form values and a submit function that will
-  // be called when the form is submitted
-  const formik = useFormik({
-    initialValues: {
-      drop_off_date: '',
-      pick_up_date : ''
-    },
-    onSubmit: values => {
-      console.log(JSON.stringify(values, null, 2));
-    },
-  });
+  
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="drop off date">Drop off date</label>
-      <input
-        id="drop_off_date"
-        name="drop_off_date"
+    <CContainer>
+    <CRow>
+    <CCol>
+      <CInputFormik
+        name="dropOffDate"
         type="date"
-        onChange={formik.handleChange}
-        value={formik.values.drop_off_date}
-      /><br/><br/>
-      <label htmlFor="pick_up_date">Pick up date</label>
-      <input
-        id="pick_up_date"
-        name="pick_up_date"
-        type="date"
-        onChange={formik.handleChange}
-        value={formik.values.pick_up_date}
+        placeholder = "Select drop off date"
+        label="Drop off date: " 
+        helpText="drop off date"
       />
-      </form>
+      </CCol>
+      <CCol>
+      <CInputFormik
+        name="dropOffTime"
+        type="time"
+        placeholder = "Select drop off time"
+        label="Drop Off time: " 
+        helpText="drop off time"
+      />
+      </CCol>
+
+      </CRow>
+      <CRow>
+      <CCol>     
+      <CInputFormik
+        name="pickUpDate"
+        type="date"
+        label="Pickup date:" 
+        helpText="pickup date"
+        placeholder = "Select pickup date"
+      />
+      </CCol>
+      <CCol>     
+      <CInputFormik
+        name="pickUpTime"
+        type="time"
+        label="Pickup time:" 
+        helpText="pickup time"
+        placeholder = "Select pickup time"
+      />
+      </CCol>
+      </CRow>
+      </CContainer>
   );
 };
 

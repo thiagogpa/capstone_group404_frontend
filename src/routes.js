@@ -10,6 +10,9 @@ const CBins = React.lazy(() => import('./views/bins/CBins'));
 
 const Faq = React.lazy(() => import('./views/faq/FAQ'));
 const Contact = React.lazy(() => import('./views/contact/ContactForm'));
+
+const OrderStepper = React.lazy(() => import('./views/orders/COrderStepper'));
+
 const Something = React.lazy(() => import('./views/something/Something'));
 
 const routesLoggedIN = [
@@ -25,7 +28,8 @@ const routesLoggedIN = [
   { path: '/users/:id', exact: true, name: 'User Details', component: User },  
 
   { path: '/orders', exact: true,  name: 'Orders', component: Orders },
-  { path: '/orders/add', exact: true, name: 'Add', component: Orders },
+  { path: '/orders/add', exact: true, name: 'Add', component: OrderStepper },
+  
   { path: '/orders/list', exact: true, name: 'List of Orders', component: Orders },  
   { path: '/orders/:id', exact: true, name: 'Order Details', component: Order },  
 
