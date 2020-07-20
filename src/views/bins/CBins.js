@@ -20,6 +20,7 @@ import CBinDelete from './CBinDelete';
 import CBinUpdate from './CBinUpdate';
 
 console.log("===============CBin====================");
+//this component renders table for bin administration 
 
 //defining fields for the table 
 const fields = [

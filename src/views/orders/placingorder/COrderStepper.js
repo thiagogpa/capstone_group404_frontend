@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { ErrorMessage,FieldArray} from "formik";
 import OrderClass, {OrderedBin}  from './OrderClass';
+import ClientClass  from './ClientClass';
+import AddressClass  from './AddressClass';
 
 
 import COrderAddressForm from './COrderAddressForm'
@@ -14,10 +16,10 @@ import CBinPickerForm from './CBinPickerForm';
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 //this is going to be removed soon
 
-const client = {
+const jsonClient = {
   id:25,
-  fname: 'Hans',
-  lname: "Gretel",
+  firstName: 'Hans',
+  lastName: "Gretel",
   addresses:[{
           id: "123",
           street: "First street",
@@ -36,6 +38,7 @@ const client = {
       }],
 };
 
+const client = new ClientClass(jsonClient);
 //have to define all form foelds to make them controlled components
 const jsonOrder = {
   orderNumber:" ",
@@ -46,7 +49,9 @@ const jsonOrder = {
   pickUpDate:"",
   pickUpTime:"",
   pickUpDateTime:"",
-  bins:[]
+  address:{},
+  bins:[],
+  client:client
 }
   
 
@@ -55,8 +60,7 @@ const COrderStepper = () => {
   //getting data for initial stages
 
   const order = new OrderClass(jsonOrder);
-  
-  console.log(order);
+  order.address = new AddressClass();
   
  const [ alertMessage, setAlertMessage] = useState('');
  let axiosInstance = axios.create({
@@ -75,14 +79,14 @@ const COrderStepper = () => {
       .then((response) => {
         order.bins = response.data.map((item) => { let bin = OrderedBin.from(item);
                                                      bin.selected=0;
-                                                     bin.ifSelected=false;
+                                                     bin.isSelected=false;
                                                      bin.totalPrice=0;
                                                      return bin;
                                                 });
           for(let i=0;i<order.bins.length;i++){
             order.bins[i].index=i;
           }                                        
-        console.log(order.bins);
+        
       }).catch(error => setAlertMessage(error.message));
   }, []);
   
@@ -120,21 +124,21 @@ const COrderStepper = () => {
          />
         </div>
       </WizardStep>
-      <WizardStep
+
+       <WizardStep
           onSubmit={() => console.log("Dates onSubmit")}
-          validationSchema={OrderClass.getAddressValidationSchema()}
+         
         >
       <div>
           <COrderAddressForm/>
       </div>
     </WizardStep>
     <WizardStep
-         onSubmit={() => console.log("Dates onSubmit")}
+         onSubmit={() => console.log("OrderSummary onSubmit")}
         >
-      <div>
           <COrderSummary/>
-      </div>
     </WizardStep>
+
     </Wizard>
   </div>
 )};

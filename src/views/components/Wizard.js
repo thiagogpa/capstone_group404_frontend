@@ -11,7 +11,6 @@ import {
     CCardFooter
     
   } from '@coreui/react'
-import CInputFormik from './CInputFormik' 
 
 
 //const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -22,7 +21,7 @@ import CInputFormik from './CInputFormik'
 // incomplete data. A snapshot of form state is used as initialValues after each
 // transition. Each page has an optional submit handler, and the top-level
 // submit is called when the final page is submitted.
-const Wizard = ({ children, initialValues, onSubmit }) => {
+const Wizard = ({ children, initialValues, onSubmit}) => {
   const [stepNumber, setStepNumber] = useState(0);
   const steps = React.Children.toArray(children);
   const [snapshot, setSnapshot] = useState(initialValues);
@@ -80,7 +79,7 @@ const Wizard = ({ children, initialValues, onSubmit }) => {
             )}
             <div>
               <CButton color={"primary"} size={"lg"} disabled={formik.isSubmitting} type="submit">
-                {isLastStep ? "Submit" : "Next>"}
+                {isLastStep ? "Place order" : "Next>"}
               </CButton>
             </div>
           </div>

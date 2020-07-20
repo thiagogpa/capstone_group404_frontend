@@ -68,7 +68,7 @@ class BinClass{
         amount: Yup.number().required().positive().integer(),
         available: Yup.number().positive().integer().min(0).max(Yup.ref("amount")),
         picture: Yup.string().optional()
-                    .matches("\.(gif|jpe?g|tiff?|png|webp|bmp)$",
+                    .matches(".(gif|jpe?g|tiff?|png|webp|bmp)$",
                               "Must be one of following: gif, jpeg, tiff, png, webp, bmp",
                               { excludeEmptyString: true })
       

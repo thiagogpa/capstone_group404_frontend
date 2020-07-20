@@ -15,7 +15,7 @@ import {
 
 const CCardForm=()=>{
 return(
-  <CForm>
+
     <CCard>
             <CCardHeader>
               Credit Card
@@ -83,7 +83,7 @@ return(
               </CRow>
             </CCardBody>
           </CCard>
-          </CForm>    
+         
 )
 }
 export default CCardForm

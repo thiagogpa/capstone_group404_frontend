@@ -12,10 +12,12 @@ class Order{
       pickUpTime;
       pickUpDate; //timestamp
       deliveryAddress;
-      subtotal;
-      taxes;
+      subtotal=0;
+      taxes=0;
+      total=0;
       status;
-      bins;//areay of bins
+      //bins=[];
+      ordersBins = [];//array of bins
       pickUpDateTime;
       dropOffDateTime;
 
@@ -23,10 +25,7 @@ class Order{
         Object.assign(this, jsonOrder);
        }
 
-      addBin(bin,amount){
-          this.bins.push({bin:bin,
-                          amount:amount});
-      }
+      
       setPickUpDate(date){
           this.pickUpDate = date;
       }
@@ -34,26 +33,29 @@ class Order{
           this.orderDate = new Date();
       }
 
-      getDays(){
-          return (this.pickUpDate - this.dropOffDate);
-      }
-
+   
       calculateSubtotal(){
-        this.subtotal = this.bins.forEach(bin=>(bin.calculatePrice())).reduce((subtotal, bin) =>(this.subtotal+bin.price) , 0);
+          console.log("Calculating order subtotal")
+          console.log(this.ordersBins);
+          console.log(this.totalDays);
+          if(this.totalDays===0) this.calculateTotalDays()
+          this.ordersBins.forEach(bin=>bin.calculateTotalPrice(this.totalDays));
+          this.subtotal = this.ordersBins.reduce((subtotal, bin) =>(subtotal+bin.totalPrice) , 0)
+          return this.subtotal;
       }
 
       calculateTaxes(){
-          this.taxes = (this.subtotal*TAX_PERCENT).toFixed(2);
+          this.taxes = Math.round((this.subtotal*TAX_PERCENT)*100)/100;
       }
 
       calculateTotal(){
         this.calculateSubtotal()
         this.calculateTaxes()
-        this.total = this.taxes+this.subtotal;
+        this.total = Math.round((this.taxes+this.subtotal)*100)/100;
       }
 
       calculateTotalDays(){
-        if(!(this.pickUpDate.length==0||this.pickUpTime.length==0 ||this.dropOffDate.length==0 ||this.dropOffTime.length==0)){
+        if(!(this.pickUpDate.length===0||this.pickUpTime.length===0 ||this.dropOffDate.length===0 ||this.dropOffTime.length===0)){
             console.log("Calculating period")
                 this.pickUpDateTime= new Date (this.pickUpDate +" "+ this.pickUpTime);//local host datetame
                 this.dropOffDateTime= new Date (this.dropOffDate +" "+ this.dropOffTime);//local host datetame
@@ -109,7 +111,7 @@ class OrderedBin extends BinClass{
 
     calculateTotalPrice(days){
         
-        this.totalPrice=(this.dailyCost*days*this.selected).toFixed(2);
+        this.totalPrice=this.dailyCost*days*this.selected;
         return this.totalPrice;
        // this.totalPrice = 5;
     }

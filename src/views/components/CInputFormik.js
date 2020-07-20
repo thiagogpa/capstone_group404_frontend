@@ -13,7 +13,7 @@ import {
 //by Marina Khatnyuk
 //this component should be used only insede <Formik/> tag of with useFormik() hook
 
-  const CInputFormik=({ label,helpText, ...props })=> {
+  const CInputFormik=({ label,helpText,reset, ...props })=> {
     // this will return field props for an <input />
    const [field, meta, helpers] = useField(props.name);
    //console.log(field);
@@ -22,8 +22,8 @@ import {
       <>
       <CFormGroup>
         <CLabel htmlFor={field}>{label}</CLabel>
-        <CInput invalid={meta.touched&&!!meta.error} 
-                valid={meta.touched&&!meta.error} 
+        <CInput invalid={meta.touched&&!!meta.error&&!reset} 
+                valid={meta.touched&&!meta.error&&!reset} 
                 {...field} {...props} />
         <CFormText className="help-block">{helpText}</CFormText>
         {meta.error && meta.touched &&<CInvalidFeedback>{meta.error}</CInvalidFeedback>}

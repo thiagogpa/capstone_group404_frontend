@@ -27,6 +27,7 @@ import BinClass from './BinClass';
 //import {useControlledComponents} from './useControlledComponents';
 
 //component form to add/update a bin
+
 const CBinUpdate = (props) => {
 
   //initializing bin
@@ -61,39 +62,6 @@ const CBinUpdate = (props) => {
     handleClose();
   }
 
-//validation schema
-
-const binValidationSchema = Yup.object().shape({
-  wasteType: Yup.mixed().oneOf(["CONSTRUCTION","MIXED VALUE","CLEAN FILL"]),
-  
-  sizeLong: Yup.number()
-                .required("Size is required")
-                .positive()
-                .integer()
-                .max(20)
-                .min(1),
-  sizeHeight: Yup.number()
-                .required("Size is required")
-                              .positive()
-                              .integer()
-                              .max(20)
-                              .min(1),
-  sizeWide: Yup.number()
-            .positive()
-            .integer()
-            .max(20)
-            .min(1),
-  dailyCost: Yup.number().required("Daily cost is required").positive(),
-  amount: Yup.number().required().positive().integer(),
-  available: Yup.number().positive().integer().min(0).max(Yup.ref("amount")),
-  picture: Yup.string().optional()
-              .matches("\.(gif|jpe?g|tiff?|png|webp|bmp)$",
-                        "Must be one of following: gif, jpeg, tiff, png, webp, bmp",
-                        { excludeEmptyString: true })
-
-
-});
-
   return (
     <>
     <Formik initialValues={bin}
@@ -104,9 +72,9 @@ const binValidationSchema = Yup.object().shape({
             }}
             validationSchema={BinClass.getValidationSchema()}>
             {({values,handleChange,errors,handleBlur,handleSubmit})=>{
-              console.log("======FORMIK FORM HANDLING=======")
-              console.log("values:" + values);
-              console.log("errors:" + errors);
+              // console.log("======FORMIK FORM HANDLING=======")
+              // console.log("values:" + values);
+              // console.log("errors:" + errors);
                 return (
         <CModal 
             show={display} 
