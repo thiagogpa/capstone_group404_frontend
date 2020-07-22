@@ -5,7 +5,7 @@ import axios from "axios";
 
 // routes config
 import routesLoggedIN from "../routes";
-import routesLoggedOFF from "../routes copy";
+import routesLoggedOFF from "../routesLoggedOFF";
 
 //route validator
 import withAuth from "../middleware/withAuth";
