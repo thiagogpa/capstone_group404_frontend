@@ -11,7 +11,7 @@ const CBins = React.lazy(() => import('./views/bins/CBins'));
 const Faq = React.lazy(() => import('./views/faq/FAQ'));
 const Contact = React.lazy(() => import('./views/contact/ContactForm'));
 
-const OrderStepper = React.lazy(() => import('./views/orders/COrderStepper'));
+const OrderStepper = React.lazy(() => import('./views/orders/placingorder/COrderStepper'));
 
 const Something = React.lazy(() => import('./views/something/Something'));
 
