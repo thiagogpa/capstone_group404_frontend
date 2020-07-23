@@ -1,16 +1,4 @@
-export default [
-  {
-    _tag: "CSidebarNavItem",
-    name: "Schedule",
-    to: "/schedule",
-    icon: "cil-calendar",
-  },
-  {
-    _tag: "CSidebarNavItem",
-    name: "Colors",
-    to: "/theme/colors",
-    icon: "cil-drop",
-  },
+export default [  
   {
     _tag: "CSidebarNavTitle",
     _children: ["Manage"],

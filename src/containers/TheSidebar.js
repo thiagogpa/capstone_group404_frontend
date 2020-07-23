@@ -18,7 +18,7 @@ import axios from "axios";
 
 // sidebar nav config
 import navigationLoggedIN from "./_nav";
-import navigationLoggedOFF from "./_nav copy";
+import navigationLoggedOFF from "./_navLoggedOff";
 
 import logoFull from "../assets/img/logo.png";
 import logoMini from "../assets/img/logo_mini.png";

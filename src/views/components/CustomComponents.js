@@ -30,7 +30,7 @@ function ModalCustom({
   confirmationButtonText,
   showCancelButton,
   handleClose,
-  cancelButtonText,  
+  cancelButtonText,
   handleConfirmationClick,
   handleCancelClick,
 }) {
@@ -60,11 +60,7 @@ function ModalCustom({
             {confirmationButtonText}
           </CButton>
 
-          {cancelButton(
-            showCancelButton,
-            cancelButtonText,
-            handleCancelClick
-          )}
+          {cancelButton(showCancelButton, cancelButtonText, handleCancelClick)}
         </CModalFooter>
       </CModal>
     </div>
