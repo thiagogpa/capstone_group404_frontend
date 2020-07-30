@@ -3,7 +3,7 @@ import React from 'react';
 const Orders = React.lazy(() => import('./views/orders/Orders'));
 const Order = React.lazy(() => import('./views/orders/OrderDetails'));
 
-const AddUser = React.lazy(() => import('./views/users/AddUser.js'));
+const AddStaff = React.lazy(() => import('./views/users/AddStaff'));
 const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
 
@@ -25,7 +25,7 @@ const routesLoggedIN = [
   { path: '/bins/something', exact: true,  name: 'test', component: Something },
     
   { path: '/users', exact: true,  name: 'Users', component: Users },
-  { path: '/users/add', exact: true, name: 'Add', component: AddUser },
+  { path: '/users/add', exact: true, name: 'Add', component: AddStaff },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },  
 
   { path: '/orders', exact: true,  name: 'Orders', component: Orders },
