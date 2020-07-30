@@ -14,6 +14,7 @@ import {
   CCol,
   CFormGroup,
   CRow,
+  CDataTable,
 } from "@coreui/react";
 
 import { Form, Col } from "react-bootstrap";
@@ -76,13 +77,10 @@ const User = ({ match }) => {
       });
   };
 
-
   const handleUserDeleted = () => {
     setSuccess(!success);
-    history.push(`/users`)
+    history.push(`/users`);
   };
-
-
 
   const userSection = (value) => {
     return value.length == 0 ? (
@@ -171,6 +169,35 @@ const User = ({ match }) => {
     );
   };
 
+  const fields = [
+    {
+      key: "street",
+      _classes: "font-weight-bold",
+      sorter: true,
+      filter: true,
+    },
+    {
+      key: "numberStreet",
+      sorter: true,
+      filter: true,
+    },
+    {
+      key: "city",
+      sorter: true,
+      filter: true,
+    },
+    {
+      key: "province",
+      sorter: true,
+      filter: true,
+    },
+    {
+      key: "zipcode",
+      sorter: true,
+      filter: true,
+    },
+  ];
+
   const addressSection = (value) => {
     return value.length == 0 ? (
       <div></div>
@@ -180,71 +207,18 @@ const User = ({ match }) => {
           <CRow>
             <CCol xs="12">
               <CCard>
-                <CCardHeader>Delivery address info</CCardHeader>
+                <CCardHeader>Addresses</CCardHeader>
                 <CCardBody>
-                  <CFormGroup row>
-                    <CCol md="10">
-                      <Form.Group controlId="validationFormik01">
-                        <Form.Label>Street</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="Street"
-                          value={value[0].street}
-                          disabled
-                        />
-                      </Form.Group>
-                    </CCol>
-
-                    <CCol md="2">
-                      <Form.Group controlId="validationFormik01">
-                        <Form.Label>Number</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="number"
-                          value={value[0].numberStreet}
-                          disabled
-                        />
-                      </Form.Group>
-                    </CCol>
-                  </CFormGroup>
-
-                  <CFormGroup row>
-                    <CCol md="2">
-                      <Form.Group controlId="validationFormik01">
-                        <Form.Label>Zipcode</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="zipcode"
-                          value={value[0].zipcode}
-                          disabled
-                        />
-                      </Form.Group>
-                    </CCol>
-
-                    <CCol md="5">
-                      <Form.Group controlId="validationFormik01">
-                        <Form.Label>Province</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="province"
-                          value={value[0].province}
-                          disabled
-                        />
-                      </Form.Group>
-                    </CCol>
-
-                    <CCol md="5">
-                      <Form.Group controlId="validationFormik01">
-                        <Form.Label>City</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="city"
-                          value={value[0].city}
-                          disabled
-                        />
-                      </Form.Group>
-                    </CCol>
-                  </CFormGroup>
+                  <CDataTable
+                    items={value}
+                    fields={fields}
+                    hover
+                    sorter
+                    striped
+                    pagination
+                    itemsPerPage={10}
+                    clickableRows
+                  />
                 </CCardBody>
               </CCard>
             </CCol>

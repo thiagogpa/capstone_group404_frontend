@@ -26,6 +26,7 @@ import {
 import { Form, Col } from "react-bootstrap";
 
 import DateFilter from "./dateFilter";
+import OrdersList from "./OrdersList";
 
 import axios from "axios";
 
@@ -55,6 +56,8 @@ const Orders = () => {
     });
 
     axiosInstance.get("/api/order").then((response) => {
+      console.log(response.data);
+
       setAllOrders(response.data);
       setFilteredOrders(response.data);
     });
@@ -173,55 +176,19 @@ const Orders = () => {
               </CCardBody>
             </CCard>
 
-            <CDataTable
-              items={filteredOrdersData}
-              fields={fields}
-              hover
-              tableFilter
-              sorter
-              striped
-              pagination
-              itemsPerPageSelect
-              itemsPerPage={5}
-              clickableRows
-              onRowClick={(item) => history.push(`/Orders/${item.id}`)}
-              scopedSlots={{
-                orderDate: (item) => (
-                  <td className="align-middle">
-                    {new Intl.DateTimeFormat("en-CA", displayOptions).format(
-                      new Date(item.orderDate)
-                    )}
-                  </td>
-                ),
+            <OrdersList ordersList={filteredOrdersData} />
 
-                dropOffDate: (item) => (
-                  <td className="align-middle">
-                    {new Intl.DateTimeFormat("en-CA", displayOptions).format(
-                      new Date(item.dropOffDate)
-                    )}
-                  </td>
-                ),
-
-                pickUpDate: (item) => (
-                  <td className="align-middle">
-                    {new Intl.DateTimeFormat("en-CA", displayOptions).format(
-                      new Date(item.pickUpDate)
-                    )}
-                  </td>
-                ),
-
-                status: (item) => (
-                  <td>
-                    <CBadge color={getBadge(item.status)}>{item.status}</CBadge>
-                  </td>
-                ),
-
-              }}
-            />
           </CCardBody>
         </CCard>
-        <CButton color="primary" variant="outline" type="submit" class="btn btn-secondary" >
-          <CSVLink data={ordersList} separator={","} filename={fileName} >Export orders list to CSV file</CSVLink>
+        <CButton
+          color="primary"
+          variant="outline"
+          type="submit"
+          class="btn btn-secondary"
+        >
+          <CSVLink data={ordersList} separator={","} filename={fileName}>
+            Export orders list to CSV file
+          </CSVLink>
         </CButton>
       </CCol>
     </CRow>
