@@ -54,7 +54,7 @@ export default [
     _children: [
       {
         _tag: "CSidebarNavItem",
-        name: "Add",
+        name: "Add Staff Member",
         to: "/users/add",
       },
       {

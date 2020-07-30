@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import CIcon from "@coreui/icons-react";
 import axios from "axios";
+import { useHistory, useLocation } from "react-router-dom";
+import ModalCustom from "../components/CustomComponents";
 
 import {
   CBadge,
@@ -16,23 +18,27 @@ import {
 
 import { Form, Col } from "react-bootstrap";
 
-
 const User = ({ match }) => {
+  const [success, setSuccess] = useState(false);
+  const [failure, setFailure] = useState(false);
+
   const [userData, setUser] = useState([]);
   const [addressData, setAddress] = useState([]);
 
-  useEffect(() => {
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BACKEND,
-    });
+  const history = useHistory();
 
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BACKEND,
+  });
+
+  useEffect(() => {
     axiosInstance.get("/api/user/" + match.params.id).then((response) => {
       setUser(response.data);
       setAddress(response.data.addresses);
     });
   }, []);
 
-  const getBadge = (staff) => {
+  const getUserBadge = (staff) => {
     switch (staff) {
       case "true":
         return "primary";
@@ -45,11 +51,38 @@ const User = ({ match }) => {
 
   const checkStaff = (value) => {
     return value === true ? (
-      <CBadge color={getBadge(userData.staff.toString())}>Staff</CBadge>
+      <CBadge color={getUserBadge(userData.staff.toString())}>Staff</CBadge>
     ) : (
-      <CBadge color={getBadge(userData.staff.toString())}>Client</CBadge>
+      <CBadge color={getUserBadge(userData.staff.toString())}>Client</CBadge>
     );
   };
+
+  const handleDeleteUser = () => {
+    axiosInstance
+      .delete("/api/user/" + match.params.id)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("200");
+          console.log(res);
+          setSuccess(!success);
+        } else {
+          console.log(res);
+          setFailure(!failure);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setFailure(!failure);
+      });
+  };
+
+
+  const handleUserDeleted = () => {
+    setSuccess(!success);
+    history.push(`/users`)
+  };
+
+
 
   const userSection = (value) => {
     return value.length == 0 ? (
@@ -60,7 +93,9 @@ const User = ({ match }) => {
           <CRow>
             <CCol xs="12">
               <CCard>
-                <CCardHeader> User info &nbsp;  {checkStaff(userData.staff)}</CCardHeader>
+                <CCardHeader>
+                  User info &nbsp; {checkStaff(userData.staff)}
+                </CCardHeader>
                 <CCardBody>
                   <CFormGroup row>
                     <CCol md="6">
@@ -115,6 +150,19 @@ const User = ({ match }) => {
                     </CCol>
                   </CFormGroup>
                 </CCardBody>
+
+                {userData.staff === true && (
+                  <CCardFooter>
+                    <CButton
+                      type="submit"
+                      size="sm"
+                      color="danger"
+                      onClick={handleDeleteUser}
+                    >
+                      <CIcon name="cil-scrubber" /> Delete
+                    </CButton>
+                  </CCardFooter>
+                )}
               </CCard>
             </CCol>
           </CRow>
@@ -172,9 +220,7 @@ const User = ({ match }) => {
                         />
                       </Form.Group>
                     </CCol>
-                  
 
-                  
                     <CCol md="5">
                       <Form.Group controlId="validationFormik01">
                         <Form.Label>Province</Form.Label>
@@ -208,9 +254,36 @@ const User = ({ match }) => {
     );
   };
 
-  
   return (
     <div>
+      {
+        <ModalCustom
+          willShow={success}
+          type="success"
+          title="Staff deleted successfully"
+          content="You have successfully deleted this Staff member"
+          confirmationButtonText="OK"
+          showCancelButton={false}
+          cancelButtonText={null}
+          handleClose={() => handleUserDeleted()}
+          handleConfirmationClick={() => handleUserDeleted()}
+          handleCancelClick={() => handleUserDeleted()}
+        />
+      }
+      {
+        <ModalCustom
+          willShow={failure}
+          type="danger"
+          title="Staff delete wast not successful"
+          content="There was a problem while deleting the user"
+          confirmationButtonText="OK"
+          showCancelButton={false}
+          cancelButtonText={null}
+          handleClose={() => setFailure(!failure)}
+          handleConfirmationClick={() => setFailure(!failure)}
+          handleCancelClick={() => setFailure(!failure)}
+        />
+      }
       {userSection(userData)}
       {addressSection(addressData)}
     </div>

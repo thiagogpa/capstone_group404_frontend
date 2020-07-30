@@ -90,8 +90,7 @@ const Users = () => {
               sorter              
               striped
               pagination
-              itemsPerPageSelect
-              itemsPerPage={5}              
+              itemsPerPage={10}              
               clickableRows
               onColumnFilterChange={(event) => handleChange(event)}
               onRowClick={(item) => history.push(`/users/${item.id}`)}
