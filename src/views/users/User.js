@@ -4,6 +4,8 @@ import axios from "axios";
 import { useHistory, useLocation } from "react-router-dom";
 import ModalCustom from "../components/CustomComponents";
 
+import OrdersList from "../orders/OrdersList";
+
 import {
   CBadge,
   CButton,
@@ -25,6 +27,7 @@ const User = ({ match }) => {
 
   const [userData, setUser] = useState([]);
   const [addressData, setAddress] = useState([]);
+  const [ordersData, setOrders] = useState([]);
 
   const history = useHistory();
 
@@ -36,6 +39,7 @@ const User = ({ match }) => {
     axiosInstance.get("/api/user/" + match.params.id).then((response) => {
       setUser(response.data);
       setAddress(response.data.addresses);
+      setOrders(response.data.orders);
     });
   }, []);
 
@@ -228,6 +232,30 @@ const User = ({ match }) => {
     );
   };
 
+  const handleOrderClick = (item) => {        
+  }
+
+  const ordersSection = (value) => {
+    return value.length == 0 ? (
+      <div></div>
+    ) : (
+      <div>
+        <Form>
+          <CRow>
+            <CCol xs="12">
+              <CCard>
+                <CCardHeader>Orders</CCardHeader>
+                <CCardBody>
+                  <OrdersList ordersList={value} handleOrderClick={(item) => handleOrderClick(item)}/>
+                </CCardBody>
+              </CCard>
+            </CCol>
+          </CRow>
+        </Form>
+      </div>
+    );
+  };
+
   return (
     <div>
       {
@@ -260,6 +288,7 @@ const User = ({ match }) => {
       }
       {userSection(userData)}
       {addressSection(addressData)}
+      {ordersSection(ordersData)}
     </div>
   );
 };

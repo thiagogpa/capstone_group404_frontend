@@ -159,6 +159,10 @@ const Orders = () => {
   var ordersList = filteredOrdersData;
   var fileName = "WallUp-Orders-List.csv";
 
+  const handleOrderClick = (item) => {     
+    history.push(`/Orders/${item.id}`);   
+  }
+
   return (
     <CRow>
       <CCol>
@@ -176,7 +180,7 @@ const Orders = () => {
               </CCardBody>
             </CCard>
 
-            <OrdersList ordersList={filteredOrdersData} />
+            <OrdersList ordersList={filteredOrdersData} handleOrderClick={(item) => handleOrderClick(item)}/>
 
           </CCardBody>
         </CCard>

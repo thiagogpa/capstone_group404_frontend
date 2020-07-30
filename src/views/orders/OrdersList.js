@@ -31,10 +31,7 @@ import axios from "axios";
 
 
 
-const OrdersList = ({ordersList}) => {
-
-  console.log("THIAGO");
-  console.log(ordersList);
+const OrdersList = ({ordersList, handleOrderClick}) => {
 
   const getBadge = (status) => {
     switch (status) {
@@ -105,7 +102,7 @@ const OrdersList = ({ordersList}) => {
       itemsPerPageSelect
       itemsPerPage={5}
       clickableRows
-      onRowClick={(item) => history.push(`/Orders/${item.id}`)}
+      onRowClick={handleOrderClick}
       scopedSlots={{
         orderDate: (item) => (
           <td className="align-middle">

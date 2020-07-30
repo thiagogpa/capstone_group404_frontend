@@ -88,7 +88,7 @@ const User = ({ match }) => {
 
       <UserForm
         handleSubmit={(e) => handleSubmit(e)}
-        isStaff={false}
+        isStaff={true}
       />
 
     </div>
