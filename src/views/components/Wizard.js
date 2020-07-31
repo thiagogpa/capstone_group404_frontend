@@ -84,7 +84,6 @@ const Wizard = ({ children, initialValues, onSubmit}) => {
             </div>
           </div>
           </CCardFooter>
-          <Debug/>
         </Form>
       )}
     </Formik>
