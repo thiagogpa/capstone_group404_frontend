@@ -1,12 +1,14 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import cookie from "react-cookies";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
 
-export default class Logoff extends Component {
-  constructor(props) {
-    super(props);
+const Logoff = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
 
+  useEffect(() => {
     let axiosInstance = axios.create({
       withCredentials: true,
       headers: {
@@ -16,26 +18,25 @@ export default class Logoff extends Component {
     });
 
     axiosInstance
-      .post('/api/logoff')
+      .post("/api/logoff")
       .then((res) => {
         if (res.status === 200) {
           console.log("200");
           console.log(res);
-          this.props.history.push("/");
+          dispatch({ type: "LOGOFF"});
+          history.push(`/`);
         } else {
           console.log(res);
           console.log("other");
-          const error = new Error(res.error);
-          throw error;
         }
       })
       .catch((err) => {
         console.error(err);
         alert("Error logging OFF please try again");
       });
-  }
+  }, []);
 
-  render() {
-    return null;
-  }
-}
+  return <div></div>;
+};
+
+export default Logoff;

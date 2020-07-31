@@ -1,17 +1,11 @@
-import { createStore } from 'redux'
+import { createStore } from "redux";
 
-const initialState = {
-  sidebarShow: 'responsive'
-}
+import reducer from "./redux/";
 
-const changeState = (state = initialState, { type, ...rest }) => {
-  switch (type) {
-    case 'set':
-      return {...state, ...rest }
-    default:
-      return state
-  }
-}
+const store = createStore(reducer);
 
-const store = createStore(changeState)
-export default store
+store.subscribe(() => {
+  console.log("Store changed ", store.getState());
+});
+
+export default store;

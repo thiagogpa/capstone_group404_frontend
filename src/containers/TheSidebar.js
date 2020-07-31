@@ -54,7 +54,7 @@ function TheSidebar() {
   }, []);
 
   const dispatch = useDispatch();
-  const show = useSelector((state) => state.sidebarShow);
+  const show = useSelector((state) => state.sideMenu.sidebarShow);
 
   return (
     <CSidebar

@@ -17,20 +17,20 @@ import { TheHeaderDropdown } from "./index";
 
 const TheHeader = () => {
   const dispatch = useDispatch();
-  const sidebarShow = useSelector((state) => state.sidebarShow);
+  const sidebarShow = useSelector((state) => state.sideMenu.sidebarShow);
 
   const toggleSidebar = () => {
     const val = [true, "responsive"].includes(sidebarShow)
       ? false
       : "responsive";
-    dispatch({ type: "set", sidebarShow: val });
+    dispatch({ type: "SET_SIDEMENU", payload: val });
   };
 
   const toggleSidebarMobile = () => {
     const val = [false, "responsive"].includes(sidebarShow)
       ? true
       : "responsive";
-    dispatch({ type: "set", sidebarShow: val });
+    dispatch({ type: "SET_SIDEMENU", payload: val });
   };
 
   return (

@@ -99,7 +99,7 @@ const Register = () => {
 
   const handleUserCreated = () => {
     setSuccess(!success);
-    history.push(`/users`);
+    history.push(`/`);
   };
 
   return (
@@ -132,20 +132,18 @@ const Register = () => {
 
       <CContainer>
         <CRow className="justify-content-center">
-          
-            <CCard className="mx-4">
-              <CCardBody className="p-4">
-                <CForm>
-                  <h1>Register</h1>
-                  <p className="text-muted">Create your account</p>
-                  <UserForm
-                    handleSubmit={(e) => handleSubmit(e)}
-                    isStaff={false}
-                  />
-                </CForm>
-              </CCardBody>
-            </CCard>
-          
+          <CCard className="mx-4">
+            <CCardBody className="p-4">
+              <CForm>
+                <h1>Register</h1>
+                <p className="text-muted">Create your account</p>
+                <UserForm
+                  handleSubmit={(e) => handleSubmit(e)}
+                  isStaff={false}
+                />
+              </CForm>
+            </CCardBody>
+          </CCard>
         </CRow>
       </CContainer>
     </div>
