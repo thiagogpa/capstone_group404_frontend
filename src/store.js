@@ -1,17 +1,23 @@
-import { createStore } from 'redux'
+import { createStore } from "redux";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 
-const initialState = {
-  sidebarShow: 'responsive'
-}
+import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 
-const changeState = (state = initialState, { type, ...rest }) => {
-  switch (type) {
-    case 'set':
-      return {...state, ...rest }
-    default:
-      return state
-  }
-}
+import rootReducer from "./redux/";
 
-const store = createStore(changeState)
-export default store
+const persistConfig = {
+  key: "root",
+  storage,
+  stateReconciler: autoMergeLevel2,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = createStore(persistedReducer);
+
+store.subscribe(() => {
+  console.log("Store changed ", store.getState());
+});
+
+export const persistor = persistStore(store);

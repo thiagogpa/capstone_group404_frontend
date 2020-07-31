@@ -5,6 +5,8 @@ import { useHistory, useLocation } from "react-router-dom";
 import ModalCustom from "../components/CustomComponents";
 import AddressModal from "../users/address/AddressModal";
 
+import { useSelector, useDispatch } from "react-redux";
+
 import {
   CBadge,
   CButton,
@@ -24,9 +26,12 @@ import UserFormForUpdate from "../users/UserFormsForUpdate";
 
 const Profile = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const [currentLogin, setCurrentLogin] = useState("ashley");
-  const [currentUser, setCurrentUser] = useState("17");
+  const [currentLogin, setCurrentLogin] = useState(
+    useSelector((state) => state.user.username)
+  );
+  const [currentUser, setCurrentUser] = useState([]);
 
   const [mustRefresh, setMustRefresh] = useState(false);
 
@@ -45,6 +50,16 @@ const Profile = () => {
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BACKEND,
   });
+
+  useEffect(() => {
+    console.log("CAlling login" + currentLogin);
+    axiosInstance.get("/api/login/" + currentLogin).then((response) => {
+      console.log(response.data);
+
+      setCurrentUser(response.data.userId);
+      setMustRefresh(!mustRefresh);
+    });
+  }, [currentLogin]);
 
   useEffect(() => {
     axiosInstance.get("/api/user/" + currentUser).then((response) => {
@@ -100,7 +115,6 @@ const Profile = () => {
         setAddressDelete(!addressDelete);
         setFailure(!failure);
       });
-    
   };
 
   const handleUpdateAddress = (e) => {
@@ -122,7 +136,6 @@ const Profile = () => {
         setShowEditAddressModal(!showEditAddressModal);
         setFailure(!failure);
       });
-    
   };
 
   const handleEditAddress = (e) => {
@@ -137,8 +150,8 @@ const Profile = () => {
         numberStreet: e.numberStreet,
         city: e.city,
         province: e.province,
-        zipcode: e.zipcode,   
-        userId: currentUser
+        zipcode: e.zipcode,
+        userId: currentUser,
       })
       .then((response) => {
         console.log("Address Inserted");
@@ -150,7 +163,6 @@ const Profile = () => {
         setShowAddAddressModal(!showAddAddressModal);
         setFailure(!failure);
       });
-    
   };
 
   return (
