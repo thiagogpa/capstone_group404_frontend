@@ -32,7 +32,7 @@ const COrderAddressForm = () => {
                   name="address.id"
                   label={address.toString()}
                   value={address.id}
-                  checked = {values.address.id === address.id}
+                  checked = {values.address.id == address.id}
                 />
                 </CCol>
               </CRow>))
@@ -45,7 +45,7 @@ const COrderAddressForm = () => {
                   name="address.id"
                   label={"Another address"}
                   value={" "}
-                  checked = {values.address.id ===" "}
+                  checked = {values.address.id ==" " }
                 />
               </CCol>
            </CRow>

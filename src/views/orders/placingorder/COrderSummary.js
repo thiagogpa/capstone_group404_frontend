@@ -33,6 +33,8 @@ const COrderSummary = () => {
 
   const handleSuccessfulPayment = (event) => {
     //this.props.history.push("/");
+
+
   };
 
   return (
@@ -76,7 +78,7 @@ const COrderSummary = () => {
 
           </CCard>
           <StripeCheckoutButton
-                price={100}
+                price={order.total}
                 handleSuccessfulPayment={handleSuccessfulPayment}
               />
         </CCol>

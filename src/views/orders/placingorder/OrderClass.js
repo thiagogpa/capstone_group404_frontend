@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import BinClass from '../../bins/BinClass'
-
+//have to add address class translation here as well as userClass
 const TAX_PERCENT=0.13;
 class Order{
       orderNumber;
@@ -71,10 +71,10 @@ class Order{
 //====Static validation
       static getDatesValidationSchema(){
         return Yup.object().shape({
-            // dropOffDate: Yup.date().required().min(new Date()),
-            // dropOffTime: Yup.string().required(),
-            // pickUpDate : Yup.date().required().min(Yup.ref("dropOffDate")),
-            // pickUpTime : Yup.string().required(),
+            dropOffDate: Yup.date().required().min(new Date()),
+            dropOffTime: Yup.string().required(),
+            pickUpDate : Yup.date().required().min(Yup.ref("dropOffDate")),
+            pickUpTime : Yup.string().required(),
         });
     }
         static getBinsValidationSchema(){
@@ -83,10 +83,12 @@ class Order{
       }
       static getAddressValidationSchema(){
         return Yup.object().shape({
+            address: Yup.mixed().required(),
     });
 }
     static getCreditCardValidationSchema(){
         return Yup.object().shape({
+        
     });
   }
 }

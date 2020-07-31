@@ -15,27 +15,20 @@ import CBinPickerForm from './CBinPickerForm';
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 //this is going to be removed soon
+//use redux useStore to read data from the redux
 
 const jsonClient = {
-  id:25,
-  firstName: 'Hans',
-  lastName: "Gretel",
+  id: 1,
+  firstName: 'Thiago',
+  lastName: "Andrade",
   addresses:[{
-          id: "123",
+          id: 1,
           street: "First street",
           numberStreet: 23,
           city: "Toronto",
           province: "Ontario",
           zipcode: "M3B1X4"
-      },
-      {
-          id: "124",
-          street: "Second street",
-          numberStreet: 55,
-          city: "Toronto",
-          province: "Ontario",
-          zipcode: "M3B1X4"
-      }],
+      },],
 };
 
 const client = new ClientClass(jsonClient);
@@ -49,7 +42,7 @@ const jsonOrder = {
   pickUpDate:"",
   pickUpTime:"",
   pickUpDateTime:"",
-  address:{},
+  address:client.addresses[0],
   bins:[],
   client:client
 }
@@ -60,7 +53,9 @@ const COrderStepper = () => {
   //getting data for initial stages
 
   const order = new OrderClass(jsonOrder);
-  order.address = new AddressClass();
+  //order.address = new AddressClass();
+
+  order.address = new AddressClass(client.addresses[0]);
   
  const [ alertMessage, setAlertMessage] = useState('');
  let axiosInstance = axios.create({
