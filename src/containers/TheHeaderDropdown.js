@@ -7,7 +7,7 @@ import {
   CImg,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 
 const TheHeaderDropdown = () => {
   return (
@@ -26,18 +26,16 @@ const TheHeaderDropdown = () => {
         <CDropdownItem header tag="div" color="light" className="text-center">
           <strong>Account</strong>
         </CDropdownItem>
-        
 
-        <CDropdownItem  to="/login">
+        <CDropdownItem to="/login">
           <CIcon name="cil-user" className="mfe-2" />
-          Login          
+          Login
         </CDropdownItem>
 
-        <CDropdownItem >
+        <CDropdownItem to="/profile">
           <CIcon name="cil-user" className="mfe-2" />
           Profile
         </CDropdownItem>
-
 
         <CDropdownItem divider />
         <CDropdownItem to="/logoff">

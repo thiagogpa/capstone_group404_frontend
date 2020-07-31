@@ -16,8 +16,12 @@ const OrderStepper = React.lazy(() => import('./views/orders/placingorder/COrder
 
 const Something = React.lazy(() => import('./views/something/Something'));
 
+const Profile = React.lazy(() => import('./views/profile/Profile'));
+
 const routesLoggedIN = [
   { path: '/', exact: true, name: 'Home' },
+
+  { path: '/profile', exact: true,  name: 'Profile', component: Profile },
 
   { path: '/bins', exact: true,  name: 'Bins' },
   //{ path: '/bins/add', exact: true,  name: 'Add Bin', component: CBinForm },
