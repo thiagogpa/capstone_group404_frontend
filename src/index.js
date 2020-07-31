@@ -1,22 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
 
+import { PersistGate } from "redux-persist/integration/react";
 
-import { icons } from './assets/icons'
+import { icons } from "./assets/icons";
 
-import { Provider } from 'react-redux'
-import store from './store'
+import { Provider } from "react-redux";
+import { persistor, store } from "./store";
 
-React.icons = icons
+React.icons = icons;
 
 ReactDOM.render(
   <Provider store={store}>
-    <App/>
-  </Provider>, 
-  document.getElementById('root')
+    <PersistGate loading={null} persistor={persistor}>
+      <App />
+    </PersistGate>
+  </Provider>,
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change
