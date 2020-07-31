@@ -78,9 +78,10 @@ const Wizard = ({ children, initialValues, onSubmit}) => {
               </CButton>
             )}
             <div>
+            {!isLastStep &&
               <CButton color={"primary"} size={"lg"} disabled={formik.isSubmitting} type="submit">
-                {isLastStep ? "Place order" : "Next>"}
-              </CButton>
+               {"Next>"}
+              </CButton>}
             </div>
           </div>
           </CCardFooter>
