@@ -18,6 +18,8 @@ const Something = React.lazy(() => import('./views/something/Something'));
 
 const Profile = React.lazy(() => import('./views/profile/Profile'));
 
+const Privacy = React.lazy(() => import('./views/privacy/Privacy'));
+
 const routesLoggedIN = [
   { path: '/', exact: true, name: 'Home' },
 
@@ -39,6 +41,7 @@ const routesLoggedIN = [
   { path: '/orders/:id', exact: true, name: 'Order Details', component: Order },  
 
   { path: '/faq', exact: true, name: 'Faq', component: Faq },
+  { path: '/privacy', exact: true, name: 'Privacy', component: Privacy },
   { path: '/contact', exact: true, name: 'Contact', component: Contact },
 
 ];
