@@ -38,8 +38,11 @@ const StripeCheckoutButton = ({ price, handleSuccessfulPayment }) => {
         stripeToken: token,
       })
       .then((response) => {
+        console.log("Successfull payment");
+        handleSuccessfulPayment();
         setModalParameters(successModal)
         setSuccess(!success);
+        
       })
       .catch((error) => {        
         console.log("Payment Error: ", error);

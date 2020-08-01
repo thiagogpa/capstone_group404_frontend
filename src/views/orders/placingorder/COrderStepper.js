@@ -62,10 +62,8 @@ const COrderStepper = () => {
       //setMustRefresh(!mustRefresh);
 
       const client = new ClientClass(response.data.user);
-
       order.client = client;
-
-      order.address = new AddressClass();
+      order.address = client.addresses[0];
     });
   }, [currentLogin]);
 
@@ -99,10 +97,8 @@ const COrderStepper = () => {
         }
       >
         <WizardStep
-          onSubmit={() => console.log("Dates onSubmit")}
-          validationSchema={OrderClass.getDatesValidationSchema()}
+         validationSchema={OrderClass.getDatesValidationSchema()}
           onSubmit={(values) => {
-            console.log("Dated and times onSubmit");
             values.calculateTotalDays();
             console.log(values);
           }}
