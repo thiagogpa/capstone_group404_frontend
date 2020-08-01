@@ -41,6 +41,8 @@ class Order{
           if(this.totalDays===0) this.calculateTotalDays()
           this.ordersBins.forEach(bin=>bin.calculateTotalPrice(this.totalDays));
           this.subtotal = this.ordersBins.reduce((subtotal, bin) =>(subtotal+bin.totalPrice) , 0)
+          this.subtotal = Math.round (this.subtotal*100)/100;
+          console.log("Subtotal: "+this.subtotal);
           return this.subtotal;
       }
 
@@ -113,7 +115,7 @@ class OrderedBin extends BinClass{
 
     calculateTotalPrice(days){
         
-        this.totalPrice=this.dailyCost*days*this.selected;
+        this.totalPrice=Math.round((this.dailyCost*days*this.selected)*100)/100;
         return this.totalPrice;
        // this.totalPrice = 5;
     }
