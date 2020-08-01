@@ -33,7 +33,6 @@ const Login = () => {
   const history = useHistory();
 
   const dispatch = useDispatch();
-  
 
   const handleSubmit = (e) => {
     let axiosInstance = axios.create({
@@ -53,7 +52,10 @@ const Login = () => {
         if (res.status === 200) {
           console.log("200");
           console.log(res);
-          dispatch({ type: "LOGIN", payload: e.username });
+          dispatch({
+            type: "LOGIN",
+            payload: { username: e.username, isStaff: res.data.isStaff },
+          });
           history.push(`/`);
         } else {
           console.log(res);
@@ -175,11 +177,6 @@ const Login = () => {
                                 Login
                               </CButton>
                             </CCol>
-                            <CCol xs="6" className="text-right">
-                              <CButton color="link" className="px-0">
-                                Forgot password?
-                              </CButton>
-                            </CCol>
                           </CRow>
                         </CForm>
                       </CCardBody>
@@ -192,9 +189,7 @@ const Login = () => {
                         <div>
                           <h2>Sign up</h2>
                           <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua.
+
                           </p>
                           <Link to="/register">
                             <CButton

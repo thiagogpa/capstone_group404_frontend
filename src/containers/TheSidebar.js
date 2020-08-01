@@ -17,13 +17,17 @@ import CIcon from "@coreui/icons-react";
 import axios from "axios";
 
 // sidebar nav config
-import navigationLoggedIN from "./_nav";
+import navigationLoggedInStaff from "./_navStaff";
+import navigationLoggedInClient from "./_navClient";
+
 import navigationLoggedOFF from "./_navLoggedOff";
 
 import logoFull from "../assets/img/logo.png";
 import logoMini from "../assets/img/logo_mini.png";
 
 function TheSidebar() {
+  const isStaff = useSelector((state) => state.user.isStaff);
+
   const [navigation, setNavigation] = useState();
   let axiosInstance = axios.create({
     withCredentials: true,
@@ -40,7 +44,10 @@ function TheSidebar() {
         console.log("RESPONSE");
         if (res.status === 200) {
           console.log("LoggedIN");
-          setNavigation(navigationLoggedIN);
+
+          setNavigation(
+            isStaff ? navigationLoggedInStaff : navigationLoggedInClient
+          );
         } else {
           console.log("LoggedOFF");
           setNavigation(navigationLoggedOFF);

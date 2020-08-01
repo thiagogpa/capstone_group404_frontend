@@ -13,6 +13,12 @@ import { persistor, store } from "./store";
 
 React.icons = icons;
 
+/* CLEARS CACHE 
+if( window.close ){
+  persistor.purge();
+}
+*/
+
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
