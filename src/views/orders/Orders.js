@@ -29,6 +29,7 @@ import DateFilter from "./dateFilter";
 import OrdersList from "./OrdersList";
 
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 
 const getBadge = (status) => {
   switch (status) {
@@ -50,6 +51,9 @@ const Orders = () => {
   const [filteredOrdersData, setFilteredOrders] = useState([]);
   const [orderDateFilter, setOrderDateFilter] = useState([]);
 
+  const isStaff = useSelector((state) => state.user.isStaff);
+  const userId = useSelector((state) => state.user.userId);
+
   useEffect(() => {
     const axiosInstance = axios.create({
       baseURL: process.env.REACT_APP_BACKEND,
@@ -58,8 +62,19 @@ const Orders = () => {
     axiosInstance.get("/api/order").then((response) => {
       console.log(response.data);
 
-      setAllOrders(response.data);
-      setFilteredOrders(response.data);
+      if (!isStaff) {
+        let userOrders = response.data.filter((order) => {
+          return (order.userId == userId);
+        });
+        setAllOrders(userOrders);
+        setFilteredOrders(userOrders);
+
+      } else {
+        setAllOrders(response.data);
+        setFilteredOrders(response.data);
+      }
+
+
     });
   }, []);
 
@@ -159,9 +174,9 @@ const Orders = () => {
   var ordersList = filteredOrdersData;
   var fileName = "WallUp-Orders-List.csv";
 
-  const handleOrderClick = (item) => {     
-    history.push(`/Orders/${item.id}`);   
-  }
+  const handleOrderClick = (item) => {
+    history.push(`/Orders/${item.id}`);
+  };
 
   return (
     <CRow>
@@ -180,8 +195,10 @@ const Orders = () => {
               </CCardBody>
             </CCard>
 
-            <OrdersList ordersList={filteredOrdersData} handleOrderClick={(item) => handleOrderClick(item)}/>
-
+            <OrdersList
+              ordersList={filteredOrdersData}
+              handleOrderClick={(item) => handleOrderClick(item)}
+            />
           </CCardBody>
         </CCard>
         <CButton

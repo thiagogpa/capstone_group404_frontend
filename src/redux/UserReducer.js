@@ -1,6 +1,7 @@
 const initialState = {
   username: "",
   isStaff: false,
+  userId: "",
 };
 
 function reducer(state = initialState, action) {
@@ -10,9 +11,10 @@ function reducer(state = initialState, action) {
         ...state,
         username: action.payload.username,
         isStaff: action.payload.isStaff,
+        userId: action.payload.userId,
       };
     case "LOGOFF":
-      return { ...state, username: "" };
+      return { ...state, username: "", isStaff: false, userId: "" };
     default:
       return state;
   }

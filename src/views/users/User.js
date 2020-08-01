@@ -232,8 +232,9 @@ const User = ({ match }) => {
     );
   };
 
-  const handleOrderClick = (item) => {        
-  }
+  const handleOrderClick = (item) => {
+    history.push(`/Orders/${item.id}`);
+  };
 
   const ordersSection = (value) => {
     return value.length == 0 ? (
@@ -246,7 +247,10 @@ const User = ({ match }) => {
               <CCard>
                 <CCardHeader>Orders</CCardHeader>
                 <CCardBody>
-                  <OrdersList ordersList={value} handleOrderClick={(item) => handleOrderClick(item)}/>
+                  <OrdersList
+                    ordersList={value}
+                    handleOrderClick={(item) => handleOrderClick(item)}
+                  />
                 </CCardBody>
               </CCard>
             </CCol>

@@ -54,7 +54,7 @@ const Login = () => {
           console.log(res);
           dispatch({
             type: "LOGIN",
-            payload: { username: e.username, isStaff: res.data.isStaff },
+            payload: { username: e.username, isStaff: res.data.isStaff, userId: res.data.userId },
           });
           history.push(`/`);
         } else {

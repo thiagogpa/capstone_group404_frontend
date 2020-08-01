@@ -21,8 +21,11 @@ import {
 } from "@coreui/react";
 
 import { Form, Col } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
 
 import ModalCustom from "../components/CustomComponents";
+
+import { useHistory, useLocation } from "react-router-dom";
 
 const User = ({ match }) => {
   const [orderData, setOrder] = useState([]);
@@ -34,12 +37,18 @@ const User = ({ match }) => {
 
   const [tempStatus, setTempStatus] = useState([]);
 
+  const isStaff = useSelector((state) => state.user.isStaff);
+  const currentUserId = useSelector((state) => state.user.userId);
+
+  const history = useHistory();
+
   useEffect(() => {
     const axiosInstance = axios.create({
       baseURL: process.env.REACT_APP_BACKEND,
     });
 
     axiosInstance.get("/api/order/" + match.params.id).then((response) => {
+
       setOrder(response.data);
       setUser(response.data.user);
       setAddress(response.data.address);
@@ -91,6 +100,22 @@ const User = ({ match }) => {
     axiosInstance.put("/api/order/" + match.params.id, {
       status: tempStatus,
     });
+  };
+
+  const statusUpdateDropDown = (value) => {
+    if (isStaff) {
+      return (
+        <CDropdownToggle color={getBadge(value.status)}>
+          {value.status}
+        </CDropdownToggle>
+      );
+    } else {
+      return (
+        <CDropdownToggle color={getBadge(value.status)} disabled>
+          {value.status}
+        </CDropdownToggle>
+      );
+    }
   };
 
   const orderSection = (value) => {
@@ -195,9 +220,7 @@ const User = ({ match }) => {
                         <Form.Label>Status</Form.Label>
                         <br></br>
                         <CDropdown className="m-1 btn-group">
-                          <CDropdownToggle color={getBadge(value.status)}>
-                            {value.status}
-                          </CDropdownToggle>
+                          {statusUpdateDropDown(value)}
                           <CDropdownMenu>
                             <CDropdownItem
                               onClick={(event) => handleStatusUpdate(event)}
