@@ -27,7 +27,7 @@ const axiosInstance = axios.create({
 
 
 const COrderSummary = () => {
-  const isNewAddress=false;
+  var isNewAddress=false;
   console.log("Order summary");
   const { values } = useFormikContext();
   //order to save:
@@ -50,14 +50,13 @@ const COrderSummary = () => {
 
    const handleSuccessfulPayment = async (event) => {
     //this.props.history.push("/");
-    console.log("INSIDE HANDLE  Successfull PAYMENT ");
-    console.log("Address is new :", isNewAddress)
+    console.log("INSIDE HANDLE ");
     //if user has a new addres, it should be saved first
     try{
     if (isNewAddress){
      let newAddress={};
      let res = await axiosInstance.post("/api/address/", {
-                    userId: order.userId,
+                    userId: order.client.id,
                     street: order.address.street,
                     numberStreet: order.address.numberStreet,
                     city: order.address.city,
@@ -65,7 +64,7 @@ const COrderSummary = () => {
                     zipcode: order.address.zipcode,
                   });
       newAddress=res.data;
-      order.addressId=newAddress.id;
+      order.address = newAddress;
       console.log(newAddress);
       console.log("Address Inserted");
     }//new address
@@ -79,17 +78,18 @@ const COrderSummary = () => {
       taxes : order.taxes,
       userId : order.client.id,
       addressId : order.address.id,//should not be empty
+      status: "initial",
       ordersbins :order.ordersBins,
     };
-    console.log(orderToSave);
+
     let resOrder = await axiosInstance.post("/api/order/", orderToSave);
     const savedOrder = resOrder.data;
+      console.log("Here is our saved order")
       console.log(savedOrder);
       order.id=savedOrder.id;
-      return order;
+      return Promise.resolve(savedOrder);
   } catch(error){
     console.log(error);
-    return null;
   }
 };
 

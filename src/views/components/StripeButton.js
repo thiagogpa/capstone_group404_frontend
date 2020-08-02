@@ -23,7 +23,7 @@ const StripeCheckoutButton = ({ price, handleSuccessfulPayment }) => {
   const priceForStripe = price * 100;
   const publishableKey = process.env.REACT_APP_STRIPE_PUBLIC_KEY;
 
-  const onToken = (token) => {
+  const onToken = (token) =>  {
     let axiosInstance = axios.create({
       withCredentials: true,
       headers: {
@@ -31,19 +31,30 @@ const StripeCheckoutButton = ({ price, handleSuccessfulPayment }) => {
       },
       baseURL: process.env.REACT_APP_BACKEND,
     });
-
+    
     axiosInstance
       .post("/payment", {
         amount: priceForStripe,
         stripeToken: token,
       })
       .then((response) => {
-        console.log("Successfull payment");
-        handleSuccessfulPayment();
-        setModalParameters(successModal)
-        setSuccess(!success);
-        
-      })
+              console.log("Successfull payment");
+              //will await until it saves everything
+              return handleSuccessfulPayment();})
+      .then((result)=>{
+                      let savedOrder=result.order;
+                      console.log("saved order");
+                      console.log(savedOrder);
+                      if(savedOrder!==null && !!savedOrder.id){
+                          successModal.content = successModal.content.concat( `. Your order number is${savedOrder.id}`)
+                          setModalParameters(successModal)
+                          setSuccess(!success);
+                      }else{
+                        //Very bad situation here 
+                        failureModal.content = "You payment was processed but your order wasnt saved. Please contact Wallup.";
+                        setModalParameters(failureModal)
+                        setSuccess(!success);
+                      }}) 
       .catch((error) => {        
         console.log("Payment Error: ", error);
         setModalParameters(failureModal)
