@@ -132,9 +132,6 @@ const COrderSummary = () => {
             price={order.total}
             handleSuccessfulPayment={handleSuccessfulPayment}
           />
-          <button onClick={() => handleSuccessfulPayment()}>
-            Test saving data
-          </button>
         </CCol>
       </CRow>
       {/*  Uncomment here to enable the CSVLink component (export to CSV file)

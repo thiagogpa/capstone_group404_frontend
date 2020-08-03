@@ -12,6 +12,7 @@ import COrderDatesForm from "./COrderDatesForm";
 import CBinPickerForm from "./CBinPickerForm";
 
 import { useSelector, useDispatch } from "react-redux";
+import e from "cors";
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 //this is going to be removed soon
@@ -34,7 +35,7 @@ const COrderStepper = () => {
   );
   const [currentUser, setCurrentUser] = useState([]);
 
-  //have to define all form foelds to make them controlled components
+  //have to define all form fields to make them controlled components
   const jsonOrder = {
     orderNumber: " ",
     orderDate: new Date(),
@@ -67,11 +68,17 @@ const COrderStepper = () => {
     });
   }, [currentLogin]);
 
-  //getting data and transform for use in the table
+  //getting data and transform for use in the table  
 
   useEffect(() => {
+    console.log("Searching for available bins");
+    console.log(order.dropOffDateTime);
+    console.log(order.pickUpDateTime);
     axiosInstance
-      .get("/api/bin")
+      .post("/api/bin/available", {
+        dateFrom: order.dropOffDateTime,
+        dateTo: order.pickUpDateTime,
+      })
       .then((response) => {
         order.bins = response.data.map((item) => {
           let bin = OrderedBin.from(item);
@@ -97,7 +104,7 @@ const COrderStepper = () => {
         }
       >
         <WizardStep
-         validationSchema={OrderClass.getDatesValidationSchema()}
+          validationSchema={OrderClass.getDatesValidationSchema()}
           onSubmit={(values) => {
             values.calculateTotalDays();
             console.log(values);

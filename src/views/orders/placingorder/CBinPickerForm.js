@@ -28,14 +28,7 @@ const fields = [
     _style: { width: '8%' },
     sorter: true,
     filter: false
-  },
-  {
-    key: 'picture',
-    label: " ",
-    _style: { width: '15%' },
-    sorter: false,
-    filter: false
-  },
+  },  
   'description',
   {
     key: 'wasteType',
@@ -119,17 +112,7 @@ return (
                       {item.available}
                     </CBadge>
                   </td>
-                ),
-              'picture':
-                (item) => {
-                  return (
-                    <td> <CImg
-                      src={item.getPicturePath(process.env.PUBLIC_URL + '/bins/')}
-                      className={"mb-3 shadow p-3 bg-white rounded"}
-                      height={80}
-                    /></td>
-                  )
-                },
+                ),              
               'wasteType':
                 (item) => {
                   return (
