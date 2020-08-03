@@ -13,6 +13,8 @@ const TheHeaderDropdown = () => {
   const username = useSelector((state) => state.user.username);
 
   return (
+    <>
+    <strong>{useSelector((state) => state.user.username)}</strong>
     <CDropdown inNav className="c-header-nav-items mx-2" direction="down">
       <CDropdownToggle className="c-header-nav-link" caret={false}>
         <div className="c-avatar">
@@ -24,7 +26,7 @@ const TheHeaderDropdown = () => {
           />
         </div>
       </CDropdownToggle>
-
+            
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownItem header tag="div" color="light" className="text-center">
           <strong>Account</strong>
@@ -60,6 +62,7 @@ const TheHeaderDropdown = () => {
         )}
       </CDropdownMenu>
     </CDropdown>
+    </>
   );
 };
 

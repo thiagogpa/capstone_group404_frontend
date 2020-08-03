@@ -12,12 +12,12 @@ export default [
     _children: [
       {
         _tag: "CSidebarNavItem",
-        name: "Add",
+        name: "Create new",
         to: "/orders/add",
       },
       {
         _tag: "CSidebarNavItem",
-        name: "List",
+        name: "My orders list",
         to: "/orders",
       },
     ],

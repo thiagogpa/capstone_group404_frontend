@@ -1,6 +1,6 @@
 import React from "react";
 import { useFormikContext } from "formik";
-import axios from 'axios';
+import axios from "axios";
 
 import {
   CCard,
@@ -25,127 +25,123 @@ const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_BACKEND,
 });
 
-
 const COrderSummary = () => {
-  var isNewAddress=false;
+  var isNewAddress = false;
   console.log("Order summary");
   const { values } = useFormikContext();
   //order to save:
-  const order=values;
+  const order = values;
   const addressId = values.address.id;
-  //get full address info to show user 
+  //get full address info to show user
   if (addressId != " ") {
     order.address = values.client.addresses.find(
       (address) => address.id == addressId
     );
-  }else{
-    isNewAddress=true;
+  } else {
+    isNewAddress = true;
   }
 
   //re-calculating the price
   order.ordersBins = values.bins.filter((bin) => bin.isSelected == true);
   if (order.ordersBins.length > 0) {
-    order.calculateTotal(); 
+    order.calculateTotal();
   }
 
-   const handleSuccessfulPayment = async (event) => {
-    //this.props.history.push("/");
-    console.log("INSIDE HANDLE ");
-    //if user has a new addres, it should be saved first
-    try{
-    if (isNewAddress){
-     let newAddress={};
-     let res = await axiosInstance.post("/api/address/", {
-                    userId: order.client.id,
-                    street: order.address.street,
-                    numberStreet: order.address.numberStreet,
-                    city: order.address.city,
-                    province: order.address.province,
-                    zipcode: order.address.zipcode,
-                  });
-      newAddress=res.data;
-      order.address = newAddress;
-      console.log(newAddress);
-      console.log("Address Inserted");
-    }//new address
-     
+  const handleSuccessfulPayment = async (event) => {    
+    //if user has a new address, it should be saved first
+    try {
+      if (isNewAddress) {
+        let newAddress = {};
+        let res = await axiosInstance.post("/api/address/", {
+          userId: order.client.id,
+          street: order.address.street,
+          numberStreet: order.address.numberStreet,
+          city: order.address.city,
+          province: order.address.province,
+          zipcode: order.address.zipcode,
+        });
+        newAddress = res.data;
+        order.address = newAddress;
+        console.log(newAddress);
+        console.log("Address Inserted");
+      } //new address
 
-   var orderToSave={
-      orderDate: order.orderDate,
-      dropOffDate : order.dropOffDateTime,
-      pickUpDate : order.pickUpDateTime,
-      subtotal : order.subtotal,
-      taxes : order.taxes,
-      userId : order.client.id,
-      addressId : order.address.id,//should not be empty
-      status: "initial",
-      ordersbins :order.ordersBins,
-    };
+      var orderToSave = {
+        orderDate: order.orderDate,
+        dropOffDate: order.dropOffDateTime,
+        pickUpDate: order.pickUpDateTime,
+        subtotal: order.subtotal,
+        taxes: order.taxes,
+        userId: order.client.id,
+        addressId: order.address.id, //should not be empty
+        status: "In progress",
+        ordersbins: order.ordersBins,
+      };
 
-    let resOrder = await axiosInstance.post("/api/order/", orderToSave);
-    const savedOrder = resOrder.data;
-      console.log("Here is our saved order")
+      let resOrder = await axiosInstance.post("/api/order/", orderToSave);
+      const savedOrder = resOrder.data;
+      console.log("Here is our saved order");
       console.log(savedOrder);
-      order.id=savedOrder.id;
+      order.id = savedOrder.id;
       return Promise.resolve(savedOrder);
-  } catch(error){
-    console.log(error);
-  }
-};
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-
-return (
-  <CContainer fluid>
-    <CRow>
-      <CCol>
-        <CCard>
-          <CCardHeader>
-            {" "}
-            <h5>Summary</h5>
-          </CCardHeader>
-          <CCardBody>
-            <p>
-              Client: {order.client.firstName} {order.client.lastName}
-            </p>
-            <p>
-              Drop off date: {order.dropOffDate} time: {order.dropOffTime}{" "}
-            </p>
-            <p>
-              Pickap date: {order.pickUpDate} time: {order.pickUpTime}{" "}
-            </p>
-            <p>Delivery address: {order.address.toString()}</p>
-            <p>Order bins: </p>
-            <ol>
-              {order.ordersBins.length > 0 &&
-                order.ordersBins.map((bin) => {
-                  return (
-                    <li key={bin.id.toString()}>
-                      {bin.wasteType} {bin.getCapacity()} yard bin - $
-                      {bin.totalPrice}CAD{" "}
-                    </li>
-                  );
-                })}
-            </ol>
-            <p>Subtotal: {order.subtotal.toFixed(2)}</p>
-            <p>Taxes: {order.taxes.toFixed(2)}</p>
-          </CCardBody>
-          <CCardFooter>
-            <h6>Total   : {order.total.toFixed(2)} </h6>
-          </CCardFooter>
-
-        </CCard>
-        <StripeCheckoutButton
-          price={order.total}
-          handleSuccessfulPayment={handleSuccessfulPayment}
-        />
-        <button onClick={()=>handleSuccessfulPayment()}>Test saving data</button>
-      </CCol>
-    </CRow>
-    {/*  Uncomment here to enable the CSVLink component (export to CSV file)
+  return (
+    <CContainer fluid>
+      <CRow>
+        <CCol>
+          <CCard>
+            <CCardHeader>
+              {" "}
+              <h5>Summary</h5>
+            </CCardHeader>
+            <CCardBody>
+              <p>
+                Client: {order.client.firstName} {order.client.lastName}
+              </p>
+              <p>
+                Drop off date: {order.dropOffDate} time: {order.dropOffTime}{" "}
+              </p>
+              <p>
+                Pickup date: {order.pickUpDate} time: {order.pickUpTime}{" "}
+              </p>
+              <p>Delivery address: {order.address.toString()}</p>
+              <p>Order bins: </p>
+              <ol>
+                {order.ordersBins.length > 0 &&
+                  order.ordersBins.map((bin) => {
+                    return (
+                      <li key={bin.id.toString()}>
+                        {bin.wasteType} {bin.getCapacity()} yard bin - $
+                        {bin.totalPrice}CAD{" "}
+                      </li>
+                    );
+                  })}
+              </ol>
+              <p>Subtotal: {order.subtotal.toFixed(2)}</p>
+              <p>Taxes: {order.taxes.toFixed(2)}</p>
+            </CCardBody>
+            <CCardFooter>
+              <h6>Total : {order.total.toFixed(2)} </h6>
+            </CCardFooter>
+          </CCard>
+          <StripeCheckoutButton
+            price={order.total}
+            handleSuccessfulPayment={handleSuccessfulPayment}
+          />
+          <button onClick={() => handleSuccessfulPayment()}>
+            Test saving data
+          </button>
+        </CCol>
+      </CRow>
+      {/*  Uncomment here to enable the CSVLink component (export to CSV file)
             <CSVLink data={orderData} separator={","}>Export to CSV file</CSVLink>;
       */}
-  </CContainer>
-);
+    </CContainer>
+  );
 };
 
 export default COrderSummary;

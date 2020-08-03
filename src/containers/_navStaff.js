@@ -1,47 +1,23 @@
-export default [  
+export default [
   {
     _tag: "CSidebarNavTitle",
     _children: ["Manage"],
   },
 
   {
-    _tag: "CSidebarNavDropdown",
+    _tag: "CSidebarNavItem",
     name: "Bins",
-    route: "/bins",
+    to: "/bins/list",
     icon: "cib-codesandbox",
-    _children: [
-      {
-        _tag: "CSidebarNavItem",
-        name: "Add bin",
-        to: "/bins/add",
-      },
-      {
-        _tag: "CSidebarNavItem",
-        name: "Bins List",
-        to: "/bins/list",
-      },
-      {
-        _tag: "CSidebarNavItem",
-        name: "Something",
-        to: "/bins/something",
-      },
-
-    ],
   },
+
   {
-    _tag: "CSidebarNavDropdown",
+    _tag: "CSidebarNavItem",
     name: "Orders",
-    route: "/orders",
+    to: "/orders",
     icon: "cib-cashapp",
-    _children: [
-
-      {
-        _tag: "CSidebarNavItem",
-        name: "List",
-        to: "/orders",
-      },
-    ],
   },
+
   {
     _tag: "CSidebarNavDropdown",
     name: "Users",
@@ -60,6 +36,4 @@ export default [
       },
     ],
   },
-
-  
 ];
