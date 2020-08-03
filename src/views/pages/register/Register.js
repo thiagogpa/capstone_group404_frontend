@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
 import {
@@ -75,6 +76,12 @@ const Register = () => {
               if (res.status === 200) {
                 console.log("200");
                 console.log(res);
+
+                dispatch({
+                  type: "LOGIN",
+                  payload: { username: e.username, isStaff: res.data.isStaff, userId: res.data.userId },
+                });
+
                 setSuccess(!success);
               } else {
                 console.log(res);
@@ -97,8 +104,11 @@ const Register = () => {
       });
   };
 
+  const dispatch = useDispatch();
+
   const handleUserCreated = () => {
     setSuccess(!success);
+
     history.push(`/`);
   };
 
