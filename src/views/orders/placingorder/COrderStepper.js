@@ -41,7 +41,7 @@ const COrderStepper = () => {
     orderDate: new Date(),
     dropOffDate: "",
     dropOffTime: "",
-    dropOddDateTime: "",
+    dropOffDateTime: "",
     pickUpDate: "",
     pickUpTime: "",
     pickUpDateTime: "",
@@ -70,30 +70,7 @@ const COrderStepper = () => {
 
   //getting data and transform for use in the table  
 
-  useEffect(() => {
-    console.log("Searching for available bins");
-    console.log(order.dropOffDateTime);
-    console.log(order.pickUpDateTime);
-    axiosInstance
-      .post("/api/bin/available", {
-        dateFrom: order.dropOffDateTime,
-        dateTo: order.pickUpDateTime,
-      })
-      .then((response) => {
-        order.bins = response.data.map((item) => {
-          let bin = OrderedBin.from(item);
-          bin.selected = 0;
-          bin.isSelected = false;
-          bin.totalPrice = 0;
-          return bin;
-        });
-        for (let i = 0; i < order.bins.length; i++) {
-          order.bins[i].index = i;
-        }
-      })
-      .catch((error) => setAlertMessage(error.message));
-  }, []);
-
+  
   return (
     <div>
       <h1>Placing order</h1>

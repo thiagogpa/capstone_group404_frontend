@@ -1,7 +1,10 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import CInputFormik from '../../components/CInputFormik';
+import axios from "axios";
+import OrderedBin from "./OrderClass";
 
 import { useFormikContext, FieldArray } from 'formik';
+
 
 import {
   CBadge,
@@ -58,8 +61,45 @@ const fields = [
 
 /// function returns component 
 const CBins = () => {
-
+  const [alertMessage, setAlertMessage] = useState("");
   const { values, handleChange, setFieldValue, setFieldTouched } = useFormikContext();
+  let axiosInstance = axios.create({
+    withCredentials: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
+
+
+    
+    baseURL: process.env.REACT_APP_BACKEND,
+  });
+
+  useEffect(() => {
+    console.log("Searching for available bins");
+    console.log(values.dropOffDateTime);
+    console.log(values.pickUpDateTime);
+    axiosInstance
+      .post("/api/bin/available", {
+        dateFrom: values.dropOffDateTime,
+        dateTo: values.pickUpDateTime,
+      })
+      .then((response) => {
+        values.bins = response.data.map((item) => {
+          let bin = OrderedBin.from(item);
+          bin.selected = 0;
+          bin.isSelected = false;
+          bin.totalPrice = 0;
+          return bin;
+        });
+        for (let i = 0; i < values.bins.length; i++) {
+          values.bins[i].index = i;
+        }
+      })
+      .catch((error) => setAlertMessage(error.message));
+  }, []);
+
+
+
 
   //cusomized change handlers to synchronize selected and isSelected Fields 
   //amount selected input number onChange handler 
