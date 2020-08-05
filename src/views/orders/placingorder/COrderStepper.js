@@ -68,9 +68,8 @@ const COrderStepper = () => {
     });
   }, [currentLogin]);
 
-  //getting data and transform for use in the table  
+  //getting data and transform for use in the table
 
-  
   return (
     <div>
       <h1>Placing order</h1>
@@ -82,8 +81,38 @@ const COrderStepper = () => {
       >
         <WizardStep
           validationSchema={OrderClass.getDatesValidationSchema()}
-          onSubmit={(values) => {
+          onSubmit={async (values) => {
             values.calculateTotalDays();
+            console.log(values);
+
+            let axiosInstance = axios.create({
+              withCredentials: true,
+              headers: {
+                "Content-Type": "application/json",
+              },
+
+              baseURL: process.env.REACT_APP_BACKEND,
+            });
+
+            await axiosInstance
+              .post("/api/bin/available", {
+                dateFrom: values.dropOffDateTime,
+                dateTo: values.pickUpDateTime,
+              })
+              .then((response) => {
+                values.bins = response.data.map((item) => {
+                  let bin = OrderedBin.from(item);
+                  bin.selected = 0;
+                  bin.isSelected = false;
+                  bin.totalPrice = 0;
+                  return bin;
+                });
+                for (let i = 0; i < values.bins.length; i++) {
+                  values.bins[i].index = i;
+                }
+              })
+              .catch((error) => setAlertMessage(error.message));
+
             console.log(values);
           }}
         >
