@@ -54,6 +54,7 @@ const CBinUpdate = (props) => {
 
     if (isNewBin) {
       console.log("Adding bin....");
+      console.log(bin)
       binsContext.addBin(bin);
     } else {
       binsContext.updateBin(bin);

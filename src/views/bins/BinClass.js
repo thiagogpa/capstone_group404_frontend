@@ -10,7 +10,8 @@ class BinClass {
     daily_cost,
     picture_url,
     available,
-    description
+    description,
+    amount
   ) {
     this.id = id;
     this.wasteType = waste_type;
@@ -21,6 +22,7 @@ class BinClass {
     this.picture = picture_url;
     this.available = available;
     this.description = description;
+    this.amount = amount;
   }
 
   static from(json) {
