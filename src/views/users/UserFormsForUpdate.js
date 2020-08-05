@@ -36,10 +36,18 @@ function UserFormForUpdate({
 }) {
   const loginValidationSchema = Yup.object().shape({
     password: Yup.string().required("Password is required"),
+    confirmPassword: Yup
+    .string()
+    .required()
+    .label('Confirm password')
+    .test('passwords-match', 'Passwords must match', function(value) {
+      return this.parent.password === value;
+    }),
   });
 
   const loginInitialValues = {
     password: "",
+    confirmPassword: "",
   };
 
   const passwordSection = (value) => {
@@ -91,6 +99,33 @@ function UserFormForUpdate({
                           </Form.Control.Feedback>
                         </CInputGroup>
                       </Form.Group>
+
+                      <Form.Group>
+                        <Form.Label>Password confirmation</Form.Label>
+                        <CInputGroup className="mb-4">
+                          <CInputGroupPrepend>
+                            <CInputGroupText>
+                              <CIcon name="cil-lock-locked" />
+                            </CInputGroupText>
+                          </CInputGroupPrepend>
+
+                          <Form.Control
+                            type="password"
+                            name="confirmPassword"
+                            placeholder="*********"
+                            value={values.confirmPassword}
+                            onChange={handleChange}
+                            isInvalid={
+                              !!errors.confirmPassword && touched.confirmPassword
+                            }
+                          />
+
+                          <Form.Control.Feedback type="invalid">
+                            {errors.confirmPassword}
+                          </Form.Control.Feedback>
+                        </CInputGroup>
+                      </Form.Group>
+
                     </CCardBody>
 
                     <CCardFooter>

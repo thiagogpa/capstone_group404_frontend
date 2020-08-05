@@ -26,6 +26,12 @@ function UserForm({ handleSubmit, isStaff }) {
   const staffValidationSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
     password: Yup.string().required("Password is required"),
+    confirmPassword: Yup.string()
+      .required()
+      .label("Confirm password")
+      .test("passwords-match", "Passwords must match", function (value) {
+        return this.parent.password === value;
+      }),
     firstName: Yup.string().required("First Name is required"),
     lastName: Yup.string().required("Last Name is required"),
     email: Yup.string().required("Email is required"),
@@ -37,6 +43,12 @@ function UserForm({ handleSubmit, isStaff }) {
   const clientValidationSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
     password: Yup.string().required("Password is required"),
+    confirmPassword: Yup.string()
+      .required()
+      .label("Confirm password")
+      .test("passwords-match", "Passwords must match", function (value) {
+        return this.parent.password === value;
+      }),
     firstName: Yup.string().required("First Name is required"),
     lastName: Yup.string().required("Last Name is required"),
     email: Yup.string().required("Email is required"),
@@ -57,6 +69,7 @@ function UserForm({ handleSubmit, isStaff }) {
   const staffInitialValues = {
     username: "",
     password: "",
+    confirmPassword: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -66,6 +79,7 @@ function UserForm({ handleSubmit, isStaff }) {
   const clientInitialValues = {
     username: "",
     password: "",
+    confirmPassword: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -142,6 +156,32 @@ function UserForm({ handleSubmit, isStaff }) {
 
                       <Form.Control.Feedback type="invalid">
                         {errors.password}
+                      </Form.Control.Feedback>
+                    </CInputGroup>
+                  </Form.Group>
+
+                  <Form.Group>
+                    <Form.Label>Password confirmation</Form.Label>
+                    <CInputGroup className="mb-4">
+                      <CInputGroupPrepend>
+                        <CInputGroupText>
+                          <CIcon name="cil-lock-locked" />
+                        </CInputGroupText>
+                      </CInputGroupPrepend>
+
+                      <Form.Control
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="*********"
+                        value={values.confirmPassword}
+                        onChange={handleChange}
+                        isInvalid={
+                          !!errors.confirmPassword && touched.confirmPassword
+                        }
+                      />
+
+                      <Form.Control.Feedback type="invalid">
+                        {errors.confirmPassword}
                       </Form.Control.Feedback>
                     </CInputGroup>
                   </Form.Group>
@@ -264,7 +304,9 @@ function UserForm({ handleSubmit, isStaff }) {
                             type="text"
                             name="numberStreet"
                             value={values.numberStreet}
-                            isInvalid={!!errors.numberStreet && touched.numberStreet}
+                            isInvalid={
+                              !!errors.numberStreet && touched.numberStreet
+                            }
                             onChange={handleChange}
                           />
                           <Form.Control.Feedback type="invalid">
